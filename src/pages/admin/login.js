@@ -137,7 +137,7 @@ const AdminLogin = (props)=>{
                 <div className="card-footer-item card-footer-item-bordered">
                     <a href="/admin/register" className="footer-link">Create Account</a></div>
                 <div className="card-footer-item card-footer-item-bordered">
-                    <a href="#" className="footer-link">Forgot Password</a>
+                    <a href="/admin/reset" className="footer-link">Forgot Password</a>
                 </div>
             </div>
         </div>
