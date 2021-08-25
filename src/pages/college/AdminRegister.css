@@ -1,0 +1,19 @@
+html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        display: -ms-flexbox;
+        display: flex;
+        -moz-flex-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .Admin-register, .Admin-login, .Admin-reset{
+        position: relative;
+        left: 13cm;
+    }
