@@ -11,15 +11,21 @@ import {useHistory} from 'react-router-dom'
 
 const Success = (props)=>{
     return(
-        <div className="alert alert-success" role="alert">
-          {props.message}
-        </div>
+        <div className="alert alert-success  alert-dismissible fade show" role="alert">
+        {props.message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
     )
 }
 const InputAlert = (props)=>{
     return(
-        <div className="alert alert-warning" role="alert">
+        <div className="alert alert-warning  alert-dismissible fade show" role="alert">
           {props.message}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
         </div>
     )
 }
