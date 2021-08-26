@@ -32,7 +32,8 @@ const CreateCollege = () => {
     const [success,setSuccess] = useState(false)
     const [collegeNameError,setCollegeNameError] = useState('')
     const [collgeDeanError,setCollgeDeanError] = useState('')
-    
+    const [loading,setLoading] = useState(false)
+
     const Validate = (e) =>{
         e.preventDefault();
         
@@ -67,7 +68,7 @@ const CreateCollege = () => {
         setCollgeDeanError('')
         console.log(Validate(e))
         if(Validate(e)){
-        
+            setLoading(true)
            const response1 = await axios({
                 method: 'post',
                 url: '/registrar/create-college',
@@ -101,29 +102,22 @@ const CreateCollege = () => {
 
                   
                   if(response1.data.DATA && response2.data.CollegeUser){
-                        setSuccess(true)
+                    setLoading(false)    
+                    setSuccess(true)
+                        
                   }
                   
               }
-    
-        
-        
 
     }
-
-
-
-
-
     return(
-        <div style={{ position:'relative',left:'25em' }}>
+        <div style={{ position:'relative',left:'30em' }}>
             <div className="card" >
             <h5 className="card-header">Create College</h5>
                 <div className="card-body">
                 { success && <Success message="Successfully Created. Email Has been sent to College Dean. " />}
-                
                     <form id="form" data-parsley-validate="" >
-                   
+                   {loading &&  <img src="/assets/images/loading.gif" style={{ position:'relative',left:'5em',height:'10em' }} alt="Loading..."/>}
                         <div className="form-group row">
                         
                             <p style={{ marginLeft:'1em' }}>College Name</p>
@@ -148,7 +142,7 @@ const CreateCollege = () => {
                             <div className="col-sm-6 pl-0">
                                 <p className="text-right">
                                     <button type="submit" onClick={(e)=>CreateColleges(e)} className="btn btn-space btn-primary">Submit</button>
-                                    <a href="/admin/home" className="btn btn-space btn-secondary">Cancel</a>
+                                    <a href="/admin/home" className="btn btn-space btn-danger">Cancel</a>
                                 </p>
                             </div>
                     </form>

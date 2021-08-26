@@ -1,24 +1,58 @@
-import react from 'react'
+import react, { useEffect, SyntheticEvent, useState } from 'react'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom';
+
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+axios.defaults.withCredentials = false; 
 
 
+const Row = (props)=>{
+    const EditLink = "registrar/college/edit/"+ props.college.id;
+    const DeleteLink = "registrar/college/delete/" + props.college.id
+   
+
+    const DeleteCollege = async () => {
+        const response = await axios({
+            method: 'post',
+            url: `registrar/colleges/delete/${props.college.id}`
+          });
+          console.log(response)
+    }
+    return(
+        <tr>
+            <td>{props.college.name}</td>
+            <td><button type="button"  className="btn btn-warning">Edit</button></td>
+            <td><button onClick={DeleteCollege} type="button" className="btn btn-danger">Delete</button></td>
+       
+         </tr>
+    )
+}
 
 
-const Colleges = async ()=> {
+const Colleges = ()=> {
+    const [colleges,setColleges] = useState([]);
+    const [i,setI] = useState([]);
+    const history = useHistory()
 
-    axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
-    axios.defaults.withCredentials = false;
 
-    const response1 = await axios({
-        method: 'post',
-        url: '/registrar/create-college',
-        data: {
-            'name' : '',
+    
+    const viewCollege = async () =>{
+        const response = await axios.get('/registrar/colleges').
+        then((response)=>{
+            setColleges( response.data.college)
+           
+        }) 
+    }
+    
+    useEffect(() => {
+        viewCollege()
+        return () => {
+            viewCollege()
         }
-      }); 
+    }, [])
 
     return(
-        <div style={{ position:'relative',left:'25em' }}>
+        <div style={{ position:'absolute',top:'1%',left:'30%' }}>
                
         <div className="card">
         <div className="card-header">
@@ -31,23 +65,16 @@ const Colleges = async ()=> {
                     <thead>
                         <tr>
                             <th>College</th>
-                            <th>Dean Email</th>
-                            <th>Departments</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td><button type="button" class="btn btn-warning">Edit</button></td>
-                            <td><button type="button" class="btn btn-danger">Delete</button></td>
-                           
-                        </tr>
-                        
-                                
+                     {
+                        colleges.map((college)=>{
+                          return <Row college={college} key={college.id}/>
+                        })
+                     } 
                     </tbody>
                 </table>
             </div>
