@@ -45,7 +45,7 @@ const ResetPassword = ()=>{
 
         const response = await axios({
             method: 'post',
-            url: '/registrar/reset',
+            url: '/college/reset',
             data: {
                 'email' : email,
             }
@@ -95,9 +95,7 @@ const ResetPassword = ()=>{
                     <div className="form-group pt-1"><button className="btn btn-block btn-primary btn-xl"  onClick={(e)=>ResetPassword(e)} >Reset Password</button></div>
                 </form>
             </div>
-            <div className="card-footer text-center">
-                <span>Don't have an account? <a href="/admin/register">Sign Up</a></span>
-            </div>
+            
         </div>
     </div>
     

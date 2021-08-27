@@ -4,31 +4,35 @@ import { useHistory } from 'react-router-dom';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 axios.defaults.withCredentials = false; 
+//axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
 
 
-const Colleges = ()=> {
-    const [colleges,setColleges] = useState([]);
+const Department = ()=> {
+    const [departments,setDepartments] = useState([]);
     const [deleted,setDeleted] = useState(false);
     const [updated,setUpdated] = useState(false);
     const [fetching,setFetching] = useState(true)
     const history = useHistory()
+    const[collegeName,setCollegeName] = useState('')
 
     
 const Row = (props)=>{
-    const EditLink = "registrar/college/edit/"+ props.college.id;
-    const DeleteLink = "registrar/college/delete/" + props.college.id
+ //   const EditLink = "registrar/college/edit/"+ props.college.id;
+   /// const DeleteLink = "registrar/college/delete/" + props.college.id
     setDeleted(false)
     const DeleteCollege = async () => {
         setDeleted(true)
+        viewDepartment()
         const response = await axios({
             method: 'post',
-            url: `registrar/colleges/delete/${props.college.id}`
+            url: ''
           });
     }
+
     return(
         <tr>
-            <td>{props.college.name}</td>
+            <td>{departments === [] ? 'No Data Yet' : props.departments.name}</td>
             <td><button type="button"  className="btn btn-warning">Edit</button></td>
             <td><button onClick={DeleteCollege} type="button" className="btn btn-danger">Delete</button></td>
        
@@ -38,11 +42,17 @@ const Row = (props)=>{
 
 
     
-    const viewCollege = async () =>{
-        const response = await axios.get('/registrar/colleges')
+    const viewDepartment = async () =>{
+        const college_id = 70;
+        const response = await axios.get('/registrar/department/{id}')
         .then((response)=>{
-            setColleges( response.data.college)
-            if(colleges != []){
+            if(departments =='undefind'){
+                setDepartments( response.data.department)
+            }else{
+                setDepartments([{ id: 70, name: "Chemical", created_at: "2021-08-27T11:48:30.000000Z"}])
+            }
+            setDepartments( response.data.department)
+            if(departments != []){
                 setFetching(false)
             }
            
@@ -50,22 +60,15 @@ const Row = (props)=>{
     }
     
    
-    useEffect(() => {
-        viewCollege()
-        
-        return () => {
-            viewCollege()
-            
-        }
-    }, [deleted,updated])
-    console.log(colleges)
+  
+    
 
     return(
         <div style={{ position:'absolute',top:'1%',left:'30%' }}>
                
         <div className="card">
         <div className="card-header">
-            <h5 className="mb-0">Colleges of Addis Ababa Science and Technology University </h5>
+            <h5 className="mb-0">Department of  in {collegeName} Addis Ababa Science and Technology University </h5>
             <p></p>
         </div>
         <div className="card-body">
@@ -73,19 +76,19 @@ const Row = (props)=>{
                 <table id="example2" className="table table-striped table-bordered" style={{ width:"100%" }}>
                     <thead>
                         <tr>
-                            <th>College</th>
+                            <th>Department</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                      {
-                        colleges.map((college)=>{
-                          return <Row college={college} key={college.id}/>
+                        departments.map((department)=>{
+                          return <Row college={department} key={department.id}/>
                         })
                      } 
 
-                     {fetching && <tr><td colSpan="3">...</td></tr>}
+                     
                     </tbody>
                 </table>
             </div>
@@ -96,5 +99,5 @@ const Row = (props)=>{
     )
 }
 
-export default Colleges
+export default Department
 

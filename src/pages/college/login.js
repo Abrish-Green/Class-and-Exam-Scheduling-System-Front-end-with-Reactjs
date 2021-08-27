@@ -24,7 +24,7 @@ const InputAlert = (props)=>{
     )
 }
 
-const AdminLogin = (props)=>{
+const CollegeLogin = (props)=>{
     
 
 
@@ -66,55 +66,61 @@ const AdminLogin = (props)=>{
     }
 
 
-    const AdminLogin = async(e)=>{
+    const CollegeLogin = async(e)=>{
+        setFailedLogin('')
         e.preventDefault()
         setEmailError('')
         setPasswordError('')
-        console.log(Validate(e))
+        //console.log(Validate(e))
         if(Validate(e)){
             
             
            const response = await axios({
                 method: 'post',
-                url: '/registrar/login',
+                url: '/college/login',
                 data: {
                     'email' : email,
                     'password': password,
                 }
               });  
-              if(response.data.Message != 'undefined'){
-                setFailedLogin(true)
-              }
-              console.log(response.data.Message)
-              if(response.data.Token){
-                setFailedLogin(false)
-                const token = response.data.Token;
-                const Auth = `Bear ${token}`
-                setCookie('AdminAuthToken',Auth);
-                console.log(Auth)
-                setSuccess(true)
-                console.log('success',success)
-                //setTimeout(()=>{history.push('/admin/login')},1000)
-                
-              }
-
-                
               
+             // console.log(response.data)
+
+              if(response.data){
+                  if(response.data.Message == 'College User Not Found'){
+                    setFailedLogin(response.data.Message)
+                  }else{
+                    setFailedLogin('')
+                    setSuccess('User Found');
+                    console.log(response.data.College.name)
+                    if(response.data.College.name === 'TBA'){
+                        console.log('not completed')
+                        props.history.push({ pathname: '/college/register',state: response.data.College});
+                    }else{
+                        //redirect to home
+                        //console.log('completed')
+                        console.log(response.data.Token)
+                        localStorage.setItem('c_auth', "Bearer "+response.data.Token);
+                    }
+
+
+
+                  }
+              }
+          
+                 
               
         }
         
 
     }
 
-
-    const AuthToken  = cookies.AdminAuthToken
-
     return (
         <div className="splash-container Admin-login">
         <div className="card ">
             <div className="card-header text-center"><a href="../index.html">
             <img style={{height:'18vh'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
-            </a><span className="splash-description">Registrar Login</span>
+            </a><span className="splash-description">College Login</span>
             </div>
             <div className="card-body">
             { success && <Success message="Login was Successful" />}
@@ -130,14 +136,14 @@ const AdminLogin = (props)=>{
                         {passwordError && <InputAlert message={passwordError} />}
                         </div>
                     
-                    <button type="submit" onClick={(e)=>{AdminLogin(e)}} className="btn btn-primary btn-lg btn-block">Sign in</button>
+                    <button type="submit" onClick={(e)=>{CollegeLogin(e)}} className="btn btn-primary btn-lg btn-block">Sign in</button>
                 </form>
             </div>
             <div className="card-footer bg-white p-0  ">
                 <div className="card-footer-item card-footer-item-bordered">
-                    <a href="/admin/register" className="footer-link">Create Account</a></div>
+                    <p href="/college/register" className="text-success"><i class='fas fa-lock' style={{ fontSize:"20px" }}></i> Secured Login</p></div>
                 <div className="card-footer-item card-footer-item-bordered">
-                    <a href="/admin/reset" className="footer-link">Forgot Password</a>
+                    <a href="/college/reset" className="footer-link">Forgot Password</a>
                 </div>
             </div>
         </div>
@@ -146,7 +152,7 @@ const AdminLogin = (props)=>{
     )
 }
 
-export default AdminLogin
+export default CollegeLogin
 
 
 
