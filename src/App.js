@@ -10,7 +10,7 @@ import CollegeRegister from './pages/college/register'
 import CollegeReset from './pages/college/reset'
 import Departments from './pages/college/departments'
 import CreateDepartment from './pages/college/createDepartments'
-
+import EditDepartment from './pages/college/editDepartment'
 
 
 const App =()=>{
@@ -33,6 +33,7 @@ const App =()=>{
 
                     <Route path="/college/departments" component={Departments} exact/>
                     <Route path="/college/create-department" component={CreateDepartment} exact/>
+                    <Route path="/college/department/edit/:id" component={EditDepartment} exact/>
 
 
                    

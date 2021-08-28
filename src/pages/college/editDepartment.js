@@ -39,7 +39,7 @@ const InputAlert = (props)=>{
         </div>
     )
 }
-const CreateCollege = () => {
+const CreateCollege = (props) => {
 
     const [departmentName,setdepartmentName] = useState('');
     const [departmentHead,setdepartmentHead] = useState('')
@@ -56,9 +56,13 @@ const CreateCollege = () => {
         (
             async ()=>{
                 const response = await axios.get('/college/current').then((response)=>{
-                    console.log(response.data.college_id)
+                    //console.log(response.data.college_id)
                     setUser(response.data)
+                    
+                    
                 })
+                //console.log(await props.location.state.id)
+                setDepartmentID(await props.location.state.id)
             }
         )();
        
@@ -67,76 +71,39 @@ const CreateCollege = () => {
         e.preventDefault();
         
         setSuccess(false)
-        if(departmentName == '' || departmentHead == ''){
+        if(departmentName == ''){
         
             if((departmentName == '')){
                 setdepartmentNameError('Please provide Department Name')
             }else{
                 setdepartmentNameError('')
             }
-            if((departmentHead == '')){
-                setdepartmentHeadError('Please provide a valid Head Email')
-            }else{
-                setdepartmentHeadError('')
-            }
-            
+         
             return false;
         }
        
-        console.log()
-        let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (departmentHead.match(regexEmail)) {
-            return true;
-          } else {
-            setdepartmentHeadError('Please provide a valid Email')
-            return false;
-          }
-        
+       return true;
     }
-    const CreateColleges = async (e) =>{
+    const EditDepartment = async (e) =>{
         e.preventDefault()
         setdepartmentNameError('')
         setdepartmentHeadError('')
-        console.log(Validate(e))
         if(Validate(e)){
-            setLoading(true)
-           const response1 = await axios({
+        setLoading(true)
+            //console.log('00',departmentHead)
+        const response = await axios({
                 method: 'post',
-                url: '/college/create-department',
+                url: `/college/department/edit/${departmentID}`,
                 data: {
                     'name' : departmentName,
-                    'college_id' : user.college_id
                 }
+              }).then((response)=>{
+                  //console.log(response)
+                  history.push({ pathname: `/college/departments`,state: []});
+      
               }); 
-              console.log(response1.data.Department.id)
-              setDepartmentID(response1.data.Department.id)
-                
-                
-                const response2 = await axios({
-                    method: 'post',
-                    url: '/college/create-department-user',
-                    data: {
-                        'name': 'TBA',
-                        'email': departmentHead,
-                        'password' : 'TBA',
-                        'remember_token' : 'TBA',
-                        'department_id' : response1.data.Department.id
-
-                    }
-                  });
-                  console.log(response2.data)
-                  const response3 = await axios({
-                    method: 'post',
-                    url: '/college/create-college-user-email',
-                    data: {
-                        'email': departmentHead,
-                    }
-                  });
-                  console.log(response3)
-
-
                   
-                  if(response1 && response2 && response3){
+                  if(response){
                     setLoading(false)    
                     setSuccess(true)
                         //should redirect                        
@@ -151,11 +118,11 @@ const CreateCollege = () => {
     return(
         <div style={{ position:'relative',left:'30em' }}>
             <div className="card" >
-            <h5 className="card-header">Create Department</h5>
+            <h5 className="card-header">Edit Department</h5>
                 <div className="card-body">
                 { success && <Success message="Successfully Created. Email Has been sent to Department Head. " />}
                     <form id="form" data-parsley-validate="" >
-                   {loading && <Sending message="Sending..."/>}
+                   {loading && <Sending message="Updating..."/>}
                         <div className="form-group row">
                         
                             <p style={{ marginLeft:'1em' }}>Department Name</p>
@@ -166,20 +133,11 @@ const CreateCollege = () => {
                                 </div>
                         </div>
                       
-                        <div className="form-group row">
-                            
-                            <p style={{ marginLeft:'1em' }}>Department Head Email</p> 
-                          <br />
-                            <div className="col-9 col-lg-12">
-                                <input id="inputPassword2" type="Email" required="" placeholder="Department Head Email" onChange={(e)=>setdepartmentHead(e.target.value)} className="form-control" />
-                                {departmentHeadError && <InputAlert message={departmentHeadError} />}
-                            </div>
-                           
-                        </div>
+
 
                             <div className="col-sm-6 pl-0">
                                 <p className="text-right">
-                                    <button type="submit" onClick={(e)=>CreateColleges(e)} className="btn btn-space btn-primary">Submit</button>
+                                    <button type="submit" onClick={(e)=>EditDepartment(e)} className="btn btn-space btn-primary">Submit</button>
                                     <a href="/admin/home" className="btn btn-space btn-danger">Cancel</a>
                                 </p>
                             </div>
