@@ -4,11 +4,8 @@ import react, { useState } from 'react'
 
 const Success = (props)=>{
     return(
-        <div className="alert alert-success  alert-dismissible fade show" role="alert">
+        <div className="alert alert-success" role="alert">
           {props.message}
-          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
         </div>
     )
 }

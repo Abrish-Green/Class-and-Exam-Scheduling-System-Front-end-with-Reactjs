@@ -6,9 +6,6 @@ import { Redirect } from 'react-router-dom';
 import {useHistory} from 'react-router-dom'
 
 
-
-
-
 const Success = (props)=>{
     return(
         <div className="alert alert-success  alert-dismissible fade show" role="alert">
@@ -29,11 +26,8 @@ const InputAlert = (props)=>{
         </div>
     )
 }
-
 const CollegeLogin = (props)=>{
     
-
-
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('');
     const [success,setSuccess] = useState(false);
@@ -126,7 +120,7 @@ const CollegeLogin = (props)=>{
         <div className="card ">
             <div className="card-header text-center"><a href="../index.html">
             <img style={{height:'18vh'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
-            </a><span className="splash-description">College Login</span>
+            </a><span className="splash-description">Department Head Login</span>
             </div>
             <div className="card-body">
             { success && <Success message="Login was Successful" />}

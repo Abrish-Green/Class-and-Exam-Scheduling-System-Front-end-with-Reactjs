@@ -11,6 +11,12 @@ import CollegeReset from './pages/college/reset'
 import Departments from './pages/college/departments'
 import CreateDepartment from './pages/college/createDepartments'
 import EditDepartment from './pages/college/editDepartment'
+import DepartmentHeads from './pages/college/departmentHeads'
+import EditDepartmentHead from './pages/college/editDepartmentHead'
+import ChangeDepartment from './pages/college/changeDepartmentHead'
+
+import DepartmentLogin from './pages/department/login'
+
 
 
 const App =()=>{
@@ -34,8 +40,13 @@ const App =()=>{
                     <Route path="/college/departments" component={Departments} exact/>
                     <Route path="/college/create-department" component={CreateDepartment} exact/>
                     <Route path="/college/department/edit/:id" component={EditDepartment} exact/>
+                    <Route path="/college/department/heads" component={DepartmentHeads} exact/>
+                    <Route path="/college/department/head/edit/:id" component={EditDepartmentHead} exact/>
+                    <Route path="/college/department/head/change/:id" component={ChangeDepartment} exact/>
 
+                    <Route path="/department/login" component={DepartmentLogin} exact/>
 
+                    
                    
 
     

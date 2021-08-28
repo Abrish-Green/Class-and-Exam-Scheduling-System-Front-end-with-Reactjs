@@ -1,6 +1,7 @@
 import react, { useEffect, SyntheticEvent, useState } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom';
+import date from 'date-and-time';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 axios.defaults.withCredentials = true; 
@@ -9,7 +10,7 @@ axios.defaults.headers.common['Authorization'] = localStorage.getItem('c_auth');
 
 
 const Department = ()=> {
-    const [departments,setDepartments] = useState([]);
+    const [departmentHeads,setDepartmentHeads] = useState([]);
     const [deleted,setDeleted] = useState(false);
     const [updated,setUpdated] = useState(false);
     const [fetching,setFetching] = useState(true)
@@ -21,16 +22,15 @@ const Department = ()=> {
 
     
     const Row = (props)=>{
-        
-        const EditLink = "registrar/college/edit/"+ props.department.id;
-        const DeleteLink = "registrar/college/delete/" + props.department.id
+     
         setDeleted(false)
+       // const now = new Date(props.department.created_at.toIso);
         const DeleteCollege = async () => {
             setFetching(true);
             setDeleted(true)
             const response = await axios({
                 method: 'post',
-                url: `/college/delete/${props.department.id}`
+                url: `/college/department-head/delete/${props.departmentHead.id}`
             }).then((response)=>{
                 //console.log(response)
                 setFetching(false)
@@ -40,13 +40,20 @@ const Department = ()=> {
         const editDepartment = async (e)  =>{
             setFetching(true);
             setUpdated(true)
-            history.push({ pathname: `/college/department/edit/${props.department.id}`,state: props.department});
+            history.push({ pathname: `/college/department/head/edit/${props.departmentHead.id}`,state: props.departmentHead});
+        }
+        const ChangeDepartmentHead = async (e)  =>{
+            setFetching(true);
+            setUpdated(true)
+            history.push({ pathname: `/college/department/head/change/${props.departmentHead.id}`,state: props.departmentHead});
         }
         return(
             <tr>
-                <td>{props.department.name}</td>
+                <td>{props.departmentHead.name}</td>
+                <td>{props.departmentHead.email}</td>  
                 <td><button type="button" onClick={(e)=>{editDepartment(e)}} className="btn btn-warning">Edit</button></td>
                 <td><button onClick={DeleteCollege} type="button" className="btn btn-danger">Delete</button></td>
+                <td><button type="button" onClick={(e)=>{ChangeDepartmentHead(e)}} className="btn btn-info">Change</button></td>
         
             </tr>
         )
@@ -55,18 +62,28 @@ const Department = ()=> {
 
 
     useEffect(() => {
-        
-
         (
             async()=>{
                 const user = axios.get(`college/current`).then((response)=>{
-                    setCollegeID(response.data.college_id)
-                    
+                   //setCollegeID(response.data)
+                    (
+                        async()=>{
+                            const getDepartment = await axios({
+                                method: 'post',
+                                url: `college/department/heads`,
+                                data:{
+                                    'college_id': response.data.college_id
+                                }
+                            }).then((response)=>{
+                                //console.log(response.data.CREATED_DATA)
+                                setDepartmentHeads(response.data.CREATED_DATA)
+                                setFetching(false)
+                            });
+                        }
+                    )();
                 });
-                const getDepartment = axios.get(`college/${college_id}/departments`).then((response)=>{
-                    setDepartments(response.data.department)
-                    setFetching(false)
-                })
+               
+               
                
             }
         )();
@@ -83,7 +100,7 @@ const Department = ()=> {
                
         <div className="card">
         <div className="card-header">
-            <h5 className="mb-0">Departments of your College in Addis Ababa Science and Technology University </h5>
+            <h5 className="mb-0">Departments Heads this College in Addis Ababa Science and Technology University </h5>
             <p></p>
         </div>
         <div className="card-body">
@@ -91,19 +108,21 @@ const Department = ()=> {
                 <table id="example2" className="table table-striped table-bordered" style={{ width:"100%" }}>
                     <thead>
                         <tr>
-                            <th>Department</th>
+                            <th>Department Head</th>
+                            <th>Email</th>
                             <th>Edit</th>
                             <th>Delete</th>
+                            <th>Change Head</th>
                         </tr>
                     </thead>
                     <tbody>
                     
                     {
-                        departments.map((department)=>{
-                           return <Row department={department} key={department.id} />
+                        departmentHeads.map((department)=>{
+                           return <Row departmentHead={department} key={department.id} />
                         })
                     }
-                     {fetching && <tr><td colSpan="3"><center>Data</center></td></tr>}
+                     {fetching && <tr><td colSpan="5"><center>Data</center></td></tr>}
 
                      
                     </tbody>
