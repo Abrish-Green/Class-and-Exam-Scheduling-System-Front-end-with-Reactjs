@@ -3,6 +3,12 @@ import axios from 'axios'
 import validator from 'validator'
 import { useHistory } from 'react-router-dom'
 
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+axios.defaults.withCredentials = true; 
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('r_auth');
+
+
+
 const Success = (props)=>{
     return(
         <div className="alert alert-success  alert-dismissible fade show" role="alert">
@@ -35,9 +41,8 @@ const InputAlert = (props)=>{
 }
 const CreateCollege = () => {
 
-    axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
-    axios.defaults.withCredentials = false;
-
+  
+    
     const [collegeName,setCollegeName] = useState('');
     const [collgeDean,setCollegeDean] = useState('')
     const [success,setSuccess] = useState(false)

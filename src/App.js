@@ -14,11 +14,14 @@ import EditDepartment from './pages/college/editDepartment'
 import DepartmentHeads from './pages/college/departmentHeads'
 import EditDepartmentHead from './pages/college/editDepartmentHead'
 import ChangeDepartment from './pages/college/changeDepartmentHead'
-
+import DepartmentRegister from './pages/department/register'
 import DepartmentLogin from './pages/department/login'
-
-
-
+import DepartmentReset from './pages/department/reset'
+import EditMyDepartment from './pages/department/editDepartment'
+import CreateInstructor from './pages/department/createInstructors'
+import DepartmentInstructors from './pages/department/instructors'
+import DepartmentEditInstructor from './pages/department/editInstructor'
+import StartSchedulingProcess from './pages/department/startSchedulingProcess';
 const App =()=>{
 
     return (
@@ -45,7 +48,13 @@ const App =()=>{
                     <Route path="/college/department/head/change/:id" component={ChangeDepartment} exact/>
 
                     <Route path="/department/login" component={DepartmentLogin} exact/>
-
+                    <Route path="/department/register" component={DepartmentRegister} exact/>
+                    <Route path="/department/reset" component={DepartmentReset} exact/>
+                    <Route path="/department/edit" component={EditMyDepartment} exact/>
+                    <Route path="/department/create/instructor" component={CreateInstructor} exact/>
+                    <Route path="/department/instructors" component={DepartmentInstructors} exact/>
+                    <Route path="/department/instructor/edit/:id" component={DepartmentEditInstructor} exact/>
+                    <Route path="/department/schedule/class" component={StartSchedulingProcess} exact/>
                     
                    
 

@@ -1,6 +1,7 @@
 html,
     body {
         height: 100%;
+        color:black;
     }
 
     body {
@@ -13,6 +14,12 @@ html,
         padding-bottom: 40px;
     }
 
+    table tr td{
+        color:black
+    }
+    .alert{
+        color:black;
+    }
     .Admin-register, .Admin-login, .Admin-reset{
         position: relative;
         left: 13cm;

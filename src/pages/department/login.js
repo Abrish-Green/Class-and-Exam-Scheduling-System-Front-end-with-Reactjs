@@ -26,7 +26,7 @@ const InputAlert = (props)=>{
         </div>
     )
 }
-const CollegeLogin = (props)=>{
+const DepartmentLogin = (props)=>{
     
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('');
@@ -66,7 +66,7 @@ const CollegeLogin = (props)=>{
     }
 
 
-    const CollegeLogin = async(e)=>{
+    const DepartmentLogin = async(e)=>{
         setFailedLogin('')
         e.preventDefault()
         setEmailError('')
@@ -74,33 +74,32 @@ const CollegeLogin = (props)=>{
         //console.log(Validate(e))
         if(Validate(e)){
             
-            
            const response = await axios({
                 method: 'post',
-                url: '/college/login',
+                url: '/department/login',
                 data: {
                     'email' : email,
                     'password': password,
                 }
               });  
               
-             // console.log(response.data)
+              //console.log(response.data)
 
               if(response.data){
-                  if(response.data.Message == 'College User Not Found'){
+                  if(response.data.Message == 'Department User Not Found'){
                     setFailedLogin(response.data.Message)
                   }else{
                     setFailedLogin('')
                     setSuccess('User Found');
-                    console.log(response.data.College.name)
-                    if(response.data.College.name === 'TBA'){
-                        console.log('not completed')
-                        props.history.push({ pathname: '/college/register',state: response.data.College});
+                    //console.log(response.data)
+                    if(response.data.department.name === 'TBA'){
+                        //console.log('not completed')
+                       props.history.push({ pathname: '/department/register',state: response.data.department});
                     }else{
                         //redirect to home
                         //console.log('completed')
-                        console.log(response.data.Token)
-                        localStorage.setItem('c_auth', "Bearer "+response.data.Token);
+                       // console.log(response.data.token)
+                        localStorage.setItem('auth', "Bearer "+response.data.token);
                     }
 
 
@@ -136,14 +135,14 @@ const CollegeLogin = (props)=>{
                         {passwordError && <InputAlert message={passwordError} />}
                         </div>
                     
-                    <button type="submit" onClick={(e)=>{CollegeLogin(e)}} className="btn btn-primary btn-lg btn-block">Sign in</button>
+                    <button type="submit" onClick={(e)=>{DepartmentLogin(e)}} className="btn btn-primary btn-lg btn-block">Sign in</button>
                 </form>
             </div>
             <div className="card-footer bg-white p-0  ">
                 <div className="card-footer-item card-footer-item-bordered">
-                    <p href="/college/register" className="text-success"><i class='fas fa-lock' style={{ fontSize:"20px" }}></i> Secured Login</p></div>
+                    <p href="#" className="text-success"><i className='fas fa-lock' style={{ fontSize:"20px" }}></i> Secured Login</p></div>
                 <div className="card-footer-item card-footer-item-bordered">
-                    <a href="/college/reset" className="footer-link">Forgot Password</a>
+                    <a href="/department/reset" className="footer-link">Forgot Password</a>
                 </div>
             </div>
         </div>
@@ -152,7 +151,7 @@ const CollegeLogin = (props)=>{
     )
 }
 
-export default CollegeLogin
+export default DepartmentLogin
 
 
 

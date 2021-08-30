@@ -6,6 +6,12 @@ import { Redirect } from 'react-router-dom';
 import {useHistory} from 'react-router-dom'
 
 
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('c_auth');
+
+
+
 const Success = (props)=>{
     return(
         <div className="alert alert-success  alert-dismissible fade show" role="alert">
@@ -52,8 +58,7 @@ const AdminRegister = (props)=> {
             setId(await props.location.state.id)
         }
     )();
-    axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
-    axios.defaults.withCredentials = false;
+   
     const [cookies, setCookie, removeCookie] = useCookies(['']);
     
     const Validate = (e) =>{

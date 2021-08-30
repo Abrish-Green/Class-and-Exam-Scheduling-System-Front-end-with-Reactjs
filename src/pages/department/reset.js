@@ -45,7 +45,7 @@ const ResetPassword = ()=>{
 
         const response = await axios({
             method: 'post',
-            url: '/college/reset',
+            url: '/department/reset',
             data: {
                 'email' : email,
             }

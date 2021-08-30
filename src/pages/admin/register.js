@@ -5,6 +5,12 @@ import { useCookies } from 'react-cookie';
 import { Redirect } from 'react-router-dom';
 import {useHistory} from 'react-router-dom'
 
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+axios.defaults.withCredentials = true; 
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('r_auth');
+
+
+
 const Success = (props)=>{
     return(
         <div className="alert alert-success  alert-dismissible fade show" role="alert">
@@ -45,9 +51,6 @@ const AdminRegister = ()=> {
     const [confirm_passwordError,setConfirm_passwordError] = useState('')
     
 
-
-    axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
-    axios.defaults.withCredentials = true;
     const [cookies, setCookie, removeCookie] = useCookies(['']);
     
     const Validate = (e) =>{

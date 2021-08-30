@@ -94,10 +94,8 @@ const AdminLogin = (props)=>{
               console.log(response.data.Message)
               if(response.data.Token){
                 setFailedLogin(false)
-                const token = response.data.Token;
-                const Auth = `Bear ${token}`
-                setCookie('AdminAuthToken',Auth);
-                console.log(Auth)
+                
+                localStorage.setItem('r_auth', "Bearer "+response.data.Token);
                 setSuccess(true)
                 console.log('success',success)
                 //setTimeout(()=>{history.push('/admin/login')},1000)
@@ -113,7 +111,6 @@ const AdminLogin = (props)=>{
     }
 
 
-    const AuthToken  = cookies.AdminAuthToken
 
     return (
         <div className="splash-container Admin-login">

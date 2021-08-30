@@ -87,13 +87,12 @@ const AdminRegister = (props)=> {
     }
 
 
-    console.log(id)
+    //console.log(id)
     const registerDean = async(e)=>{
         
-       
         
         e.preventDefault()
-    
+        console.log(Validate(e))
         if(Validate(e)){
             setUsernameError('');
             setPasswordError('')
@@ -101,17 +100,18 @@ const AdminRegister = (props)=> {
 
            const response = await axios({
                 method: 'post',
-                url: '/college/updates',
+                url: `/department/complete_info`,
                 data: {
-                    'id' : id,
-                    'name': username,
-                    'password': password,
+                    'id': id,
+                    'name' : username,
+                    'password' : password,
                 }
               }).then((response)=>{
-                //console.log(response)
+                console.log(response)
                   setSuccess(true)
                     //redirect
-              });  
+              }); 
+              console.log(response) 
               
         }
         
@@ -119,7 +119,7 @@ const AdminRegister = (props)=> {
     }
 
     useEffect(() => {
-        console.log(id)
+        //console.log(id)
         return () => {
            
         }
@@ -162,7 +162,7 @@ const AdminRegister = (props)=> {
             </div>
              { success && <Success message="Congratulation!You Successfully Completed Your Account" />}
             <div className="card-footer bg-white">
-                <p>Already member? <a href="/college/login" className="text-secondary">Login Here.</a></p>
+                <p>Already member? <a href="/department/login" className="text-secondary">Login Here.</a></p>
             </div>
         </div>
        

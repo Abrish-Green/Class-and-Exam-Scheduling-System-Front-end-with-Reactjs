@@ -22,8 +22,11 @@ const Department = ()=> {
 
     
     const Row = (props)=>{
-     
+        const [departmentName,setDepartmentName] = useState('')
         setDeleted(false)
+        const res = axios.get(`/college/department/${props.departmentHead.department_id}`).then((response)=>{
+            setDepartmentName(response.data.department.name)
+        })
        // const now = new Date(props.department.created_at.toIso);
         const DeleteCollege = async () => {
             setFetching(true);
@@ -49,8 +52,9 @@ const Department = ()=> {
         }
         return(
             <tr>
+                <td>{departmentName != '' ? departmentName : 'Loading...'}</td>
                 <td>{props.departmentHead.name}</td>
-                <td>{props.departmentHead.email}</td>  
+                <td>{props.departmentHead.email}</td>   
                 <td><button type="button" onClick={(e)=>{editDepartment(e)}} className="btn btn-warning">Edit</button></td>
                 <td><button onClick={DeleteCollege} type="button" className="btn btn-danger">Delete</button></td>
                 <td><button type="button" onClick={(e)=>{ChangeDepartmentHead(e)}} className="btn btn-info">Change</button></td>
@@ -96,7 +100,7 @@ const Department = ()=> {
     //console.log(departments)
 
     return(
-        <div style={{ position:'absolute',top:'1%',left:'30%' }}>
+        <div style={{ position:'absolute',top:'1%',left:'15%' }}>
                
         <div className="card">
         <div className="card-header">
@@ -108,7 +112,8 @@ const Department = ()=> {
                 <table id="example2" className="table table-striped table-bordered" style={{ width:"100%" }}>
                     <thead>
                         <tr>
-                            <th>Department Head</th>
+                            <th>Department</th>
+                            <th>Department Head Name</th>
                             <th>Email</th>
                             <th>Edit</th>
                             <th>Delete</th>
@@ -118,11 +123,14 @@ const Department = ()=> {
                     <tbody>
                     
                     {
+                        departmentHeads.length >=1 ? 
                         departmentHeads.map((department)=>{
                            return <Row departmentHead={department} key={department.id} />
                         })
+                        :
+                        <tr><td colSpan="6"><center>No Data yet</center></td></tr>
                     }
-                     {fetching && <tr><td colSpan="5"><center>Data</center></td></tr>}
+                     {fetching && <tr><td colSpan="6"><center>Loading</center></td></tr>}
 
                      
                     </tbody>

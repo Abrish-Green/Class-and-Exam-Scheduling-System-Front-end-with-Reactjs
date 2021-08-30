@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common['Authorization'] = localStorage.getItem('c_auth');
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('d_auth');
 
 
 
@@ -23,7 +23,7 @@ const Sending = (props)=>{
     return(
         <div className="alert alert-info  alert-dismissible fade show" role="alert">
           {props.message}
-          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -39,16 +39,16 @@ const InputAlert = (props)=>{
         </div>
     )
 }
-const CreateCollege = (props) => {
+const EditInstructor = (props) => {
 
     const [departmentName,setdepartmentName] = useState('');
-    const [departmentHead,setdepartmentHead] = useState('')
+    const [InstructorEmail,setInstructorEmail] = useState('')
     const [success,setSuccess] = useState(false)
     const [departmentNameError,setdepartmentNameError] = useState('')
-    const [departmentHeadError,setdepartmentHeadError] = useState('')
+    const [InstructorEmailError,setInstructorEmailError] = useState('')
     const [loading,setLoading] = useState(false)
     const [user,setUser] = useState()
-    const [departmentID,setDepartmentID] = useState()
+    const [InstructorID,setInstructorID] = useState()
     const history = useHistory()
     
     
@@ -56,12 +56,11 @@ const CreateCollege = (props) => {
         (
             async ()=>{
                 const response = await axios.get('/department/current').then((response)=>{
-                    console.log(response.data)
+                    //console.log(response.data.college_id)
                     setUser(response.data)
-                    setDepartmentID(response.data.id)
                 })
                 //console.log(await props.location.state.id)
-               
+                setInstructorID(await props.location.state.id)
             }
         )();
        
@@ -70,12 +69,12 @@ const CreateCollege = (props) => {
         e.preventDefault();
         
         setSuccess(false)
-        if(departmentName == ''){
+        if(InstructorEmail == ''){
         
             if((departmentName == '')){
-                setdepartmentNameError('Please provide Department Name')
+                setInstructorEmailError('Please provide Instructor Email')
             }else{
-                setdepartmentNameError('')
+                setInstructorEmailError('')
             }
          
             return false;
@@ -86,28 +85,27 @@ const CreateCollege = (props) => {
     const EditDepartment = async (e) =>{
         e.preventDefault()
         setdepartmentNameError('')
-        setdepartmentHeadError('')
+        setInstructorEmailError('')
         if(Validate(e)){
         setLoading(true)
-            //console.log('00',departmentHead)
+            //console.log('00',InstructorEmail)
         const response = await axios({
                 method: 'post',
-                url: `/department/edit/${departmentID}`,
+                url: `/department/instructor/edit/${InstructorID}`,
                 data: {
-                    'name' : departmentName,
+                    'name' : InstructorEmail,
                 }
               }).then((response)=>{
                   console.log(response)
-
-                  setSuccess(true)
                   setLoading(false)
-                  //history.push({ pathname: `/departments`,state: []});
+                  setSuccess(true)
+                  history.push({ pathname: `/department/instructors`,state: []});
       
               }); 
                   
                   if(response){
                     setLoading(false)    
-                    //setSuccess(true)
+                    setSuccess(true)
                         //should redirect                        
                   }
                   
@@ -122,7 +120,7 @@ const CreateCollege = (props) => {
             <div className="card" >
             <h5 className="card-header">Edit Department</h5>
                 <div className="card-body">
-                { success && <Success message="Department Updated Successfully" />}
+                { success && <Success message="Successfully Created. Email Has been sent to Department Head. " />}
                     <form id="form" data-parsley-validate="" >
                    {loading && <Sending message="Updating..."/>}
                         <div className="form-group row">
@@ -130,17 +128,18 @@ const CreateCollege = (props) => {
                             <p style={{ marginLeft:'1em' }}>Department Name</p>
                             
                             <div className="col-9 col-lg-12">
-                                <input id="inputEmail2" type="email" required=""  placeholder="Department Name" onChange={(e)=>setdepartmentName(e.target.value)} className="form-control" />
-                                {departmentNameError && <InputAlert message={departmentNameError} />}
+                                <input id="inputEmail2" type="email" required=""  placeholder="Department Name" onChange={(e)=>setInstructorEmail(e.target.value)} className="form-control" />
+                                {InstructorEmailError && <InputAlert message={InstructorEmailError} />}
                                 </div>
-
-                                <div className="col-sm-6 pl-0" style={{ marginTop:'1em' }}>
+                       
+                        
+                                <div className="col-sm-6 pl-0" style={{ marginTop: '1em' }}>
                                 <p className="text-right">
                                     <button type="submit" onClick={(e)=>EditDepartment(e)} className="btn btn-space btn-primary">Submit</button>
                                     <a href="/admin/home" className="btn btn-space btn-danger">Cancel</a>
                                 </p>
                             </div>
-                        </div>
+                                </div>
                       
 
 
@@ -154,4 +153,4 @@ const CreateCollege = (props) => {
 
 
 
-export default CreateCollege
+export default EditInstructor
