@@ -98,7 +98,7 @@ const AdminLogin = (props)=>{
                 localStorage.setItem('r_auth', "Bearer "+response.data.Token);
                 setSuccess(true)
                 console.log('success',success)
-                //setTimeout(()=>{history.push('/admin/login')},1000)
+                setTimeout(()=>{history.push('/admin')},1000)
                 
               }
 
@@ -115,10 +115,17 @@ const AdminLogin = (props)=>{
     return (
         <div className="splash-container Admin-login">
         <div className="card ">
+        
+        <div style={{ marginLeft:'4em' }}>
             <div className="card-header text-center"><a href="../index.html">
-            <img style={{height:'18vh'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
-            </a><span className="splash-description">Registrar Login</span>
+                <img style={{height:'18vh',marginLeft:'1em'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
+                </a>
             </div>
+            <div>
+            <h2 className="">Registrar Login</h2>
+            </div>
+        </div>
+            
             <div className="card-body">
             { success && <Success message="Login was Successful" />}
             { failedLogin && <InputAlert message="User Not Found. Try Again" />}

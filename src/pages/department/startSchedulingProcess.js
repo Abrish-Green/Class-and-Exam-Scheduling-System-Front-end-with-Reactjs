@@ -3,12 +3,12 @@ import react from 'react'
 
 const StartSchedulingProcess = ()=>{
 
-
-
-
-
     return(
-            <></>
+            <div>
+
+
+            
+            </div>
     )
 }
 

@@ -143,12 +143,16 @@ const AdminRegister = ()=> {
     
         <div className="card">
        
-        
-            <div className="card-header">
-            <img style={{height:'18vh',position:'relative',left:'28%'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
-                <h3 style={{textAlign:'center'}}className="mb-1">Welcome To UCESS</h3>
-                <p>Please enter your Admin information to start the system</p>
+            <div style={{ marginLeft:'4em',marginTop:'1em',position:'relative' }}>
+            <div className="card-header text-center"><a href="../index.html">
+                <img style={{height:'18vh',marginLeft:'1em'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
+                </a>
             </div>
+            <div>
+            <h3 className="mb-1">Welcome To UCESS</h3>
+            <p>Please enter your Admin information to start the system</p>
+            </div>
+        </div>
             { success && <Success message="Congratulation!You Are Successfully Registered" />}
             <div className="card-body">
                 <div className="form-group">
