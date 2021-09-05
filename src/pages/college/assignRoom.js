@@ -16,8 +16,8 @@ const Room = (props)=>{
                     <div class="card">
                         <div class="card-header" id="headingSeven">
                             <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target={'#'+props.collapse} aria-expanded="false" aria-controls="collapseSeven">
-                                <span class="fas mr-3 fa-angle-down"></span>Block 57
+                            <button onClick={(e)=>e.preventDefault()} class="btn btn-link collapsed" data-toggle="collapse" data-target={'#'+props.collapse} aria-expanded="false" aria-controls="collapseSeven">
+                                <span class="fas mr-3 fa-angle-down"></span>Block {props.block.block_name}
                             </button>
                             </h5>
                         </div>
@@ -31,8 +31,8 @@ const Room = (props)=>{
                         <RoomDisplay room={props.room} />
                             <div class="col-sm-6 pl-0">
                             <p class="text-center">
-                                <button type="submit" style={{width: '15em'}} class="btn btn-space btn-success">Save</button>
-                                <Link to="" style={{width: '15em'}} class="btn btn-space btn-danger">Cancel</Link>
+                                <button type="submit" style={{width: '15em'}} onClick={(e)=>{e.preventDefault()}} class="btn btn-space btn-success">Use Rooms</button>
+                           
                             </p>
                         </div>
                         </form>

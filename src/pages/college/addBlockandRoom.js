@@ -49,14 +49,20 @@ const AddBlockandRoom = (props) => {
 
     const[Room, setRoom] = useState([]);
     const[Block, setBlock] = useState([]);
+    const[department_id,setDepartment_id]  = useState('')
+    const[college_id,setCollege_id] = useState()
+    const[myDepartments,setMyDepartments] = useState()
+    const[myBlock,setMyBlock] = useState([])
+    const[update,setUpdate] = useState(false)
+    const[block_id,setBlock_id] = useState('')
+    const[user,setUser] = useState(null)
 
-    const block = [57,58]
+    //const block = [57,58]
     
     const SelectBlockDropdown = (props)=>{
         
         return(
-            
-                <option value={props.block}>{props.block}</option>
+                <option value={props.block.block_name}>{props.block.block_name}</option>
         )
     }
 
@@ -68,13 +74,13 @@ const AddBlockandRoom = (props) => {
                         Block
                 </td>
                 <td>
-                        {props.block}
+                        {props.block.block_name}
                 </td>
                 <td>
-                        <button to="" onClick={true} className="btn btn-warning">Edit</button>
+                        <button to="" onClick={()=>{}} className="btn btn-warning">Edit</button>
                 </td>
                 <td>
-                        <button to="" onClick={true} className="btn btn-danger">Remove</button>
+                        <button to="" onClick={()=>{}} className="btn btn-danger">Remove</button>
                 </td>
             </tr>
         )
@@ -97,13 +103,154 @@ const AddBlockandRoom = (props) => {
         setRoom(rooms)
     }
 
-    
+    const GetAllBlock = async ()=>{
+        try{
+            
+             await axios({
+                method: 'get',
+                url: '/registrar/get/blocks'
+            }).then((response)=>{
+                console.log(response.data.block)
+                
+                setBlock(response.data.block)
+              
+                
+        }); 
+        }catch(e){
+            //this.setState({Block:null})
+        }
+    }
 
+    const GetMyBlock = async ()=>{
+        try{
+
+            //const response = await axios.get('/college/current').then((res)=>res);
+            //console.log(response)
+             await axios({
+                method: 'post',
+                url: '/college/get/block/',
+                data:{
+                    'college_id' : college_id
+                }
+            }).then((response)=>{
+               // console.log(response.data.block)
+                
+               setMyBlock(response.data.block)
+              
+                
+        }); 
+        }catch(e){
+            setMyBlock(null)
+        }
+    }
+
+    const GetMyDepartment = async ()=>{
+    
+        try{
+
+            const response = await axios.get('/college/current').then((res)=>setCollege_id(res.data.id));
+            //console.log(response)
+                
+             await axios({
+                method: 'get',
+                url: `/college/${college_id}/departments/`
+            }).then((response)=>{
+               // console.log(response.data.block)
+               setMyDepartments(response.data.department)
+              
+                
+        }); 
+        }catch(e){
+            //setMyDepartments(null)
+        }
+        setUpdate(true)
+    }
+
+    const UseBlock = async()=>{
+        
+        try{
+
+           // const response = await axios.get('/college/current').then((res)=>res);
+            //console.log(response.data)
+             await axios({
+                method: 'post',
+                url: '/college/use/block/',
+                data:{
+                    'block_id': block_id,
+                    'college_id' : user.college_id
+                }
+            }).then((response)=>{
+               response.data.map((data)=>{
+                  // console.log('data',data)
+               })
+                
+               //setMyBlock(response.data.block)
+              
+                
+        }); 
+        }catch(e){
+           // setMyBlock(null)
+        }
+
+
+    }
+
+    const UsedBlocks = async ()=>{
+
+        try{
+
+            // const response = await axios.get('/college/current').then((res)=>res);
+             //console.log(response.data)
+              await axios({
+                 method: 'post',
+                 url: '/college/used/block/',
+                 data:{
+                     'block_id': block_id,
+                     'college_id' : user.college_id
+                 }
+             }).then((response)=>{
+                 console.log(response.data.college_block)
+                 
+                setMyBlock(response.data.college_block)
+               
+                 
+         }); 
+         }catch(e){
+            // setMyBlock(null)
+         }
+ 
+ 
+
+
+
+    }
+ 
     useEffect(() => {
+       
+        (
+            async()=>{
+                const response = await axios(
+                    {
+                        method: 'get',
+                        'url':  '/college/current',
+                        headers:{
+                            'Authorization' : localStorage.getItem('c_auth') 
+                        }
+                    }
+                  ).then((res)=>setUser(res.data));
+            }
+        )();
+
+        GetMyDepartment()
+        GetAllBlock()
+        GetMyBlock()
         GenerateRoom()
-        setBlock(block)
-        console.log((Room));
-    }, [])
+
+        UsedBlocks()
+       
+        //setBlock(block)
+        console.log((Block));
+    }, [update])
 
     
     return(
@@ -130,21 +277,26 @@ const AddBlockandRoom = (props) => {
 
      <div class="card">
             
-                <h5 class="card-header">Add Block</h5>
+                <h5 class="card-header">Select Blocks for This College</h5>
                 <div class="card-body">
                     <form id="form" data-parsley-validate="">
                    
                         <div class="form-group row">
                             <div class="col-9 col-lg-10">
                             <p className="">Please Select your block to assign Room for each and every Department under this college from the Menu below.</p>
-                            <select class="form-select form-control" placeholder="Select Your Block" aria-label="Default select example">
+                            Block :
+                            <select onChange={(e)=> {}} class="form-select form-control" placeholder="Select Your Block" aria-label="Default select example">
 
+                            <option selected> Available Blocks</option>
                                
-                            {
+                            { Block &&
                                 Block.map((block)=>{
-                                    return  <SelectBlockDropdown block={block}/>
+                                   return <option onClick={(e)=>setBlock_id(block.id)} key={block.id} value={block.block_name}>{block.block_name}</option>
+                                    
                                 })
                             }
+
+                          
                            
 
                                 <div class="input-group mb-3">
@@ -163,7 +315,7 @@ const AddBlockandRoom = (props) => {
                         </div>
                         <div class="col-sm-6 pl-0" style={{ marginTop: '1em' }}>
                         <p class="text-center">
-                            <button type="submit" style={{float:'left',width: '10em'}} class="btn btn-space btn-success">Save</button>
+                            <button type="submit" onClick={(e)=>{e.preventDefault();UseBlock()}} style={{float:'left',width: '10em'}} class="btn btn-space btn-success">Use Block</button>
                             
                         </p>
 
@@ -183,11 +335,12 @@ const AddBlockandRoom = (props) => {
                 <ul class="list-group">
                     <table className="table table-border table-striped table-hover">
 
-                    {
-                        Block.map((block)=>{
+                    { myBlock &&
+                        myBlock.map((block)=>{
                             return <SelectedBlocks block={block} />
                         })
                     } 
+                
                     
                     </table>
                    
@@ -200,10 +353,21 @@ const AddBlockandRoom = (props) => {
                 <div class="tab-pane fade" id="outline-two" role="tabpanel" aria-labelledby="tab-outline-two">
                       <p style={{padding:'1em'}} className="card">Please Select Rooms from each block which are assigned to this college only.This selection help you to give Specific Rooms to Departments in the next Tab.</p>
                         
-                        <p style={{padding:'1em'}} className="card">
-                            <h3>Block</h3>
-                        </p>
-                        <RoomTab room={Room} collapse="col-1" />    
+                        
+                      
+                    { Block &&
+                        Block.map((block)=>{
+                            return (
+                                <div>
+                                    
+                                    <RoomTab block={block} room={Room} collapse={'col-'+block.block_name} />  
+                                </div>
+                            )
+                        })
+                    } 
+                      
+                      
+                        
                               
             
                 </div>
@@ -218,13 +382,13 @@ const AddBlockandRoom = (props) => {
 
                      <p style={{padding:'1em'}} className="card">Please Assign Rooms to each Department which legible to this college only.</p>
 
-                    <p style={{padding:'1em'}} className="card">
-                                <h3>Department</h3>
-                    </p>
+                            {myDepartments &&
 
-                    <AssignRoomToDepartment collapse="col-1"/>
-                   
+                                myDepartments.map((department)=>{
+                                    return <AssignRoomToDepartment department={department} collapse={'col-'+department.id}/>
+                                })
 
+                            }
                 </div>
             </div>
         </div>

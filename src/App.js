@@ -29,7 +29,13 @@ import EditMyDepartment from './pages/department/editDepartment'
 import CreateInstructor from './pages/department/createInstructors'
 import DepartmentInstructors from './pages/department/instructors'
 import DepartmentEditInstructor from './pages/department/editInstructor'
+import DepartmentAddCourse from './pages/department/addCourse'
+import DepartmentInstructor from './pages/department/addInstructor'
+import DepartmentSection from './pages/department/addSection'
+
+
 import StartSchedulingProcess from './pages/department/startSchedulingProcess';
+
 import NotFound404 from './pages/other/NotFound404'
 
 import AdminPortal from './pages/admin/AdminPortal'
@@ -38,52 +44,17 @@ import axios from 'axios';
 import useAuth from './useAuth';
 
 
-
-
-
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 axios.defaults.withCredentials = true; 
 //axios.defaults.headers.common['Authorization'] = localStorage.getItem('r_auth');
 
 
 
-
 const App =()=>{
 
-    const[isAdminLogged,setIsAdminLogged] = useState(false);
-    const[isCollegeLogged,setIsCollegeLogged] = useState();
-    const[isDepartmentLogged,setIsDepartmentLogged] = useState();
-    const[isInstructorLogged,setIsInstructorLogged] = useState();
-    const[user,setUser] = useState([]);
-    const [isAuth,login,wait,logout] = useAuth(false)
-  
-
-    const CheckAdmin = async (token_name,url)=> {
-
-        const response = await axios.get('registrar/user', {
-            headers: {
-              'Authorization': localStorage.getItem('r_auth')
-            }
-          }).then((response)=>{
-
-               if(token_name == 'r_auth'){
-                login()
-               }else if(token_name == 'c_auth'){
-                setIsCollegeLogged()
-               }else if(token_name == 'd_auth'){
-                setIsDepartmentLogged()
-               }else if(token_name == 'i_auth'){
-                setIsInstructorLogged()
-               }else{
-                console.log('Invalid Token Name.')
-                wait()
-               }
-        })
-    }
-
-       
+    
     return (
-        <>
+        <div>
 
             <Router>
                 <Switch>
@@ -110,7 +81,7 @@ const App =()=>{
                     <Route path="/college/department/heads" component={DepartmentHeads} exact/>
                     <Route path="/college/department/head/edit/:id" component={EditDepartmentHead} exact/>
                     <Route path="/college/department/head/change/:id" component={ChangeDepartment} exact/>
-                    <Route path="/college/department/create/block" component={CollegeAddBlock} exact/>
+                    <Route path="/college/department/select/block" component={CollegeAddBlock} exact/>
 
 
 
@@ -125,8 +96,10 @@ const App =()=>{
                     <Route path="/department/instructors" component={DepartmentInstructors} exact/>
                     <Route path="/department/instructor/edit/:id" component={DepartmentEditInstructor} exact/>
                     <Route path="/department/schedule/class" component={StartSchedulingProcess} exact/>
+                    <Route path="/department/add/course" component={DepartmentAddCourse} exact/>
+                    <Route path="/department/add/section" component={DepartmentSection} exact/>
                     
-                   
+                    
 
                     <Route component={NotFound404} />
                 </Switch>
@@ -134,7 +107,7 @@ const App =()=>{
 
 
 
-        </>
+        </div>
     )
 
 }

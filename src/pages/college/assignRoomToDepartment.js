@@ -45,8 +45,8 @@ const AssignRoomToDepartment = (props)=>{
                             <div class="card">
                                     <div class="card-header" id="headingOne">
                                         <h5 class="mb-0">
-                                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target={'#'+props.collapse} aria-expanded="false" aria-controls="collapseOne">
-                                        <span class="fas mr-3 fa-angle-down"></span> Department
+                                        <button class="btn btn-link collapsed" onClick={(e)=>e.preventDefault()} data-toggle="collapse" data-target={'#'+props.collapse} aria-expanded="false" aria-controls="collapseOne">
+                                        <span class="fas mr-3 fa-angle-down"></span> {props.department.name}
                                         </button>
                                         </h5>
                                     </div>

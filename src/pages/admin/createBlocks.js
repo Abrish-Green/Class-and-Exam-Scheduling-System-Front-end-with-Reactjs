@@ -1,6 +1,7 @@
-import react, { useEffect, useState } from 'react'
+import react, { Component, useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link, useHistory } from 'react-router-dom'
+import { render } from '@testing-library/react';
 
 var _ = require('lodash');
 
@@ -43,139 +44,207 @@ const InputAlert = (props)=>{
 
 
 
-const CreateBlocks = (props) => {
+class SelectBlockDropdown extends Component{
+        
+   
+      render(){
+        return(
+            <option value={this.props.block}>{this.props.block}</option>
+        )
+      }
+    
+}
+class CreateBlocks extends Component {
 
-    const[Block, setBlock] = useState([]);
-    const[FixedBlock, setFixedBlock] = useState([]);
 
-    const GenerateRoom = () =>{
+    constructor(props){
+        super(props);
+
+        this.state = {
+            Block : [],
+            FixedBlock : [],
+            selectedValue : '',
+            isDeleted: false
+          }
+        this.CollegeBlock = this.CollegeBlock.bind(this);
+        this.GenerateRoom = this.GenerateRoom.bind(this)
+        this.SelectBlock = this.SelectBlock.bind(this)
+        this.DeleteBlock = this.DeleteBlock.bind(this)
+      
+    }
+     DeleteBlock = async (id)=>{
+        
+        console.log('delete')
+         await axios({
+            method: 'post',
+            url: `/registrar/block/${id}/delete`,
+           
+          }).then((response)=>{
+              console.log(response)
+          }); 
+          this.setState({isDeleted:true})
+         
+          this.CollegeBlock()
+          
+
+
+    }
+
+     GenerateRoom = () =>{
         const block = [];
         for(var i=1;i<=100;i++){
             block.push(i)
         }
        
-        setFixedBlock(block)
+        this.setState({FixedBlock:block})
     }
-    const SelectBlockDropdown = (props)=>{
-        
-        return(
+   
+     SelectBlock = async (e)=>{
+        e.preventDefault()
+
+         await axios({
+            method: 'post',
+            url: '/registrar/create/block',
+            data: {
+                'block_name' : this.state.selectedValue,
+            }
+          }).then((response)=>{
+              console.log(response)
+          }); 
+
+          this.CollegeBlock()
+
+    
+    }
+
+     CollegeBlock =async ()=>{
+        try{
             
-                <option value={props.block}>{props.block}</option>
-        )
-    }
-
-    const SelectedBlocks = (props)=>{
-
-        return(
-            <tr>
-                <td>
-                        Block
-                </td>
-                <td>
-                        {props.block}
-                </td>
-                <td>
-                        <button to="" onClick={true} className="btn btn-warning">Edit</button>
-                </td>
-                <td>
-                        <button to="" onClick={true} className="btn btn-danger">Remove</button>
-                </td>
-            </tr>
-        )
-    }
-
-    
-
-    useEffect(() => {
-        GenerateRoom()
-        console.log((Block));
-    }, [])
-
-    
-    return(
-        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 mb-5"  style={{  position:'absolute', top:'2em',marginLeft: '20em', }}>
-        <div class="section-block">
-            <h2 class="section-title">University Block Manager</h2>
-        </div>
-        <div class="tab-outline">
-            <ul class="nav nav-tabs" id="myTab2" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active show" id="tab-outline-one" data-toggle="tab" href="#outline-one" role="tab" aria-controls="home" aria-selected="true">Block </a>
-                </li>
+             await axios({
+                method: 'get',
+                url: '/registrar/get/blocks'
+            }).then((response)=>{
+                console.log(response.data.block)
                 
-            </ul>
-            <div class="tab-content" id="myTabContent2">
-                <div class="tab-pane fade active show" id="outline-one" role="tabpanel" aria-labelledby="tab-outline-one">
+                this.setState({Block:response.data.block})
+              
+                
+        }); 
+        }catch(e){
+            this.setState({Block:null})
+        }
+    }
+     
+
+    componentDidMount(){
+        this.GenerateRoom()
+        this.CollegeBlock()
+        console.log(this.state.Block ? this.state.Block: 'loading...' )
+    }
 
 
-     <div class="card">
-            
-                <h5 class="card-header">Configure University Blocks</h5>
-                <div class="card-body">
-                    <form id="form" data-parsley-validate="">
-                   
-                        <div class="form-group row">
-                            <div class="col-9 col-lg-10">
-                            <p className="">Please Select your block to assign Room for each and every Department under this college from the Menu below.</p>
-                            <select class="form-select form-control" placeholder="Select Your Block" aria-label="Default select example">
-                                
-                                {
-                                    FixedBlock.map((block)=>{
-                                      return  <SelectBlockDropdown block={block}/> 
-                                    })
-                                }
-                                                          
-                            </select>
+    
 
-
-                            </div>
-                               
-            
-                        </div>
-                        <div class="col-sm-6 pl-0" style={{ marginTop: '1em' }}>
-                        <p class="text-center">
-                            <button type="submit" style={{float:'left',width: '10em'}} class="btn btn-space btn-success">Create Block</button>
-                            
-                        </p>
-
-
-                        
-                      </div>
-                    </form>
-                </div>
-            
+    render(){
+        return(
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 mb-5"  style={{  position:'absolute', top:'2em',marginLeft: '20em', }}>
+            <div class="section-block">
+                <h2 class="section-title">University Block Manager</h2>
             </div>
-            
-            
-            <div class="card" style={{ width: '580px' }}>
-            <h5 class="card-header">Selected Blocks for this College</h5>
-            <div class="card-body">
-                <ul class="list-group">
-                    <table className="table table-border table-striped table-hover">
-
-                    {Block ?
-                        
-                        <h3 className="card text-center"> No Data</h3>
-                        :
-                        Block.map((block)=>{
-                            return <SelectedBlocks block={block} />
-                        })
-                     
-                        
-                    } 
+            <div class="tab-outline">
+                <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active show" id="tab-outline-one" data-toggle="tab" href="#outline-one" role="tab" aria-controls="home" aria-selected="true">Block </a>
+                    </li>
                     
-                    </table>
-                   
                 </ul>
-            </div>
-        </div>
-
-            </div>
+                <div class="tab-content" id="myTabContent2">
+                    <div class="tab-pane fade active show" id="outline-one" role="tabpanel" aria-labelledby="tab-outline-one">
+    
+    
+         <div class="card">
                 
+                    <h5 class="card-header">Configure University Blocks</h5>
+                    <div class="card-body">
+                        <form id="form" data-parsley-validate="">
+                       
+                            <div class="form-group row">
+                                <div class="col-9 col-lg-10">
+                                <p className="">Please Select your block to assign Room for each and every Department under this college from the Menu below.</p>
+                                <select class="form-select form-control" placeholder="Select Your Block" aria-label="Default select example" onChange={(e)=>{console.log(e.target.value)}} >
+                                     <option selected>Choice Block Number</option>
+                                    {this.state.FixedBlock &&
+                                        this.state.FixedBlock.map((block)=>{
+                                          return  <option onClick={(e)=>{this.setState({selectedValue: e.target.value})}} value={block}>{block}</option> 
+                                        })
+                                    }
+                                                              
+                                </select>
+    
+    
+                                </div>
+                                   
+                
+                            </div>
+                            <div class="col-sm-6 pl-0" style={{ marginTop: '1em' }}>
+                            <p class="text-center">
+                                <button type="submit" onClick={(e)=>{this.SelectBlock(e)}} style={{float:'left',width: '10em'}} class="btn btn-space btn-success">Create Block</button>
+                                
+                            </p>
+    
+    
+                            
+                          </div>
+                        </form>
+                    </div>
+                
+                </div>
+                
+                
+                <div class="card" style={{ width: '580px' }}>
+                <h5 class="card-header">Building Blocks in AASTU</h5>
+                <div class="card-body">
+
+                {this.state.isDeleted && <Success message="Block Successfully Deleted" />}
+                    <ul class="list-group">
+                        <table className="table table-border table-striped table-hover">
+    
+                        { this.state.Block &&
+                            this.state.Block.map((block)=>{
+                                return (
+                                    <tr>
+                                        <td>
+                                                Block
+                                        </td>
+                                        <td>
+                                                {block.block_name}
+                                        </td>
+                                        
+                                        <td>
+                                                <button to="" onClick={(e)=>{e.preventDefault();this.DeleteBlock(block.id)}}  className="btn btn-danger">Remove</button>
+                                        </td>
+                                </tr>
+                                )
+                            })
+                         
+                            
+                        } 
+                        
+                        </table>
+                       
+                    </ul>
+                </div>
             </div>
-        </div>
-    </div>    )
-}
+    
+                </div>
+                    
+                </div>
+            </div>
+        </div>    )
+    
+    }
+
+    }
 
 
 

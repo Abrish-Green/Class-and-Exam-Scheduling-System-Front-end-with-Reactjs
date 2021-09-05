@@ -19,7 +19,7 @@ const RoomDisplay = (props)=>{
                                 {
                                     props.room.map((room)=>{
                                         return  <li style={{border: `1px solid ${borderColor}`}} className="list-group-item" onClick={(e)=>{
-                                                    e.target.style.background = 'darkseagreen';
+                                                    e.target.style.background = 'paleturquoise';
                                                     e.target.style.border = '1px solid #654';
                                                 
                                                     if(tempRoom.indexOf(e.target.innerHTML) !== -1){
