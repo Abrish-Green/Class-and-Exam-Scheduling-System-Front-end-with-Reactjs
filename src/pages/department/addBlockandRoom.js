@@ -198,16 +198,6 @@ const AddBlockandRoom = (props) => {
              </form>
          </div>
      </div>
-
-
-
-
-
-
-
-        
-           
-
                         
             </div>
                 <div class="tab-pane fade" id="outline-two" role="tabpanel" aria-labelledby="tab-outline-two">
