@@ -32,7 +32,9 @@ import DepartmentEditInstructor from './pages/department/editInstructor'
 import DepartmentAddCourse from './pages/department/addCourse'
 import DepartmentInstructor from './pages/department/addInstructor'
 import DepartmentSection from './pages/department/addSection'
-
+import DepartmentAddInvigilator from './pages/department/addInvigilators'
+import DepartmentInvigilators from './pages/department/Invigilators'
+import DepartmentCourses from './pages/department/courses'
 
 import StartSchedulingProcess from './pages/department/startSchedulingProcess';
 
@@ -83,9 +85,6 @@ const App =()=>{
                     <Route path="/college/department/head/change/:id" component={ChangeDepartment} exact/>
                     <Route path="/college/department/select/block" component={CollegeAddBlock} exact/>
 
-
-
-
                     <Route path="/department/login" component={DepartmentLogin} exact/>
                     <Route path="/department/register" component={DepartmentRegister} exact/>
                     <Route path="/department/reset" component={DepartmentReset} exact/>
@@ -98,6 +97,11 @@ const App =()=>{
                     <Route path="/department/schedule/class" component={StartSchedulingProcess} exact/>
                     <Route path="/department/add/course" component={DepartmentAddCourse} exact/>
                     <Route path="/department/add/section" component={DepartmentSection} exact/>
+                    
+                    <Route path="/department/courses/" component={DepartmentCourses} exact/>
+                    
+                    <Route path="/department/add/invigilator" component={DepartmentAddInvigilator} exact/>
+                    <Route path="/department/invigilators" component={DepartmentInvigilators} exact/>
                     
                     
 
