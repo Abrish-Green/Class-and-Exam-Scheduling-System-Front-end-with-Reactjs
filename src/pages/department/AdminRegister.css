@@ -2,8 +2,9 @@ html,
     body {
         height: 100%;
         color:black;
+        
     }
-
+    
     body {
         display: -ms-flexbox;
         display: flex;
@@ -24,3 +25,8 @@ html,
         position: relative;
         left: 13cm;
     }
+    .badge{
+        padding: '2em';
+    }
+
+   
