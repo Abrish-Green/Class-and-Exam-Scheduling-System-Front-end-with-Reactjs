@@ -39,11 +39,13 @@ const AdminRegister = (props)=> {
     const [usernameError,setUsernameError] = useState('')
     const [passwordError,setPasswordError] = useState('')
     const [confirm_passwordError,setConfirm_passwordError] = useState('')
+    const [department_id,setDepartmentID] = useState()
     const [id,setId] = useState();
     
     (
         async()=>{
             setId(await props.location.state.id)
+            setDepartmentID(await props.location.state.department_id)
         }
     )();
     axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
@@ -110,7 +112,18 @@ const AdminRegister = (props)=> {
                 console.log(response)
                   setSuccess(true)
                     //redirect
-              }); 
+              });
+              
+              const response2 = await axios({
+                method: 'post',
+                url: '/department/invigilator/add',
+                data: {
+                    'invigilator_name' : username,
+                    'department_id': department_id
+                }
+              });
+
+
               console.log(response) 
               
         }

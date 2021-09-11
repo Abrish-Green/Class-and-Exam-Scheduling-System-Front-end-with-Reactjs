@@ -2,6 +2,7 @@ import react, { useState } from 'react'
 import axios from 'axios'
 import validator from 'validator'
 import { useHistory } from 'react-router-dom'
+import Layout from './layout';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 axios.defaults.withCredentials = true; 
@@ -131,7 +132,11 @@ const CreateCollege = () => {
     }
 
     return(
-        <div style={{ position:'relative',left:'30em' }}>
+        <div>
+
+        {Layout && <Layout />}
+
+        <div style={{ position:'relative',left:'30em',width:'40em'}}>
             <div className="card" >
             <h5 className="card-header">Create College</h5>
                 <div className="card-body">
@@ -161,13 +166,14 @@ const CreateCollege = () => {
 
                             <div className="col-sm-6 pl-0">
                                 <p className="text-right">
-                                    <button type="submit" onClick={(e)=>CreateColleges(e)} className="btn btn-space btn-primary">Submit</button>
+                                    <button type="submit" onClick={(e)=>CreateColleges(e)} className="btn btn-space btn-success">Submit</button>
                                     <a href="/admin/home" className="btn btn-space btn-danger">Cancel</a>
                                 </p>
                             </div>
                     </form>
                 </div>
             </div>
+        </div>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-
+import Layout from './layout'
 
 class AddInstructor extends Component{
 
@@ -14,6 +14,10 @@ class AddInstructor extends Component{
     render(){
 
         return(
+            <div>
+
+            <Layout />
+
             <div style={{ position:'absolute', top:'5%',left: '15%',width: '60%' }}>
             <div class="col-lg-12">
             <div class="card">
@@ -112,6 +116,8 @@ class AddInstructor extends Component{
         </div>
             
             
+            </div>
+
             </div>
         )
     }

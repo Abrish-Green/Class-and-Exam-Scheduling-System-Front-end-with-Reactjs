@@ -136,7 +136,7 @@ const EditInstructor = (props) => {
                                 <div className="col-sm-6 pl-0" style={{ marginTop: '1em' }}>
                                 <p className="text-right">
                                     <button type="submit" onClick={(e)=>EditDepartment(e)} className="btn btn-space btn-primary">Submit</button>
-                                    <a href="/admin/home" className="btn btn-space btn-danger">Cancel</a>
+                                    <a href="/department/instructors" className="btn btn-space btn-danger">Cancel</a>
                                 </p>
                             </div>
                                 </div>

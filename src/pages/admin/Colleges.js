@@ -1,7 +1,7 @@
 import react, { useEffect, SyntheticEvent, useState } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom';
-
+import Layout from './layout'
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 axios.defaults.withCredentials = true; 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('r_auth');
@@ -62,7 +62,11 @@ const Row = (props)=>{
     console.log(colleges)
 
     return(
-        <div style={{ position:'absolute',top:'1%',left:'30%' }}>
+        <div>
+        
+        {Layout && <Layout />}
+
+        <div style={{ position:'absolute',top:'10em',left:'30%',width: '50em' }}>
                
         <div className="card">
         <div className="card-header">
@@ -80,7 +84,7 @@ const Row = (props)=>{
                         </tr>
                     </thead>
                     <tbody>
-                     {
+                     {colleges &&
                         colleges.map((college)=>{
                           return <Row college={college} key={college.id}/>
                         })
@@ -93,6 +97,7 @@ const Row = (props)=>{
         </div>
     </div>
 
+        </div>
         </div>
     )
 }

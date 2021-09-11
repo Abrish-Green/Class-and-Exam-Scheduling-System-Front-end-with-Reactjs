@@ -8,6 +8,7 @@ const Layout = ()=>{
     return(
       <div className="admin-layout">
       
+       
       <div className="dashboard-main-wrapper">
          
         
@@ -33,6 +34,7 @@ const Layout = ()=>{
                                   <a className="dropdown-item" href="#"><i className="fas fa-cog mr-2"></i>Setting</a>
                                   <a className="dropdown-item" href="#"><i className="fas fa-power-off mr-2"></i>Logout</a>
                               </div>
+                            
                           </li>
                       </ul>
                   </div>
@@ -43,7 +45,7 @@ const Layout = ()=>{
           <div className="nav-left-sidebar sidebar-dark">
               <div className="menu-list">
                   <nav className="navbar navbar-expand-lg navbar-light">
-                      <a className="d-xl-none d-lg-none" href="#">Dashboard</a>
+                      <a className="d-xl-none d-lg-none" href="#">Registrar Dashboard</a>
                       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                           <span className="navbar-toggler-icon"></span>
                       </button>
@@ -53,7 +55,7 @@ const Layout = ()=>{
                                   Menu
                               </li>
                               <li className="nav-item ">
-                                  <a className="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i className="fa fa-fw fa-user-circle"></i>Dashboard <span className="badge badge-success">6</span></a>
+                                  <a className="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i className="fa fa-fw fa-user-circle"></i>Registrar Dashboard <span className="badge badge-success">6</span></a>
                                   <div id="submenu-1" className="collapse submenu" >
                                       <ul className="nav flex-column">
                                           <li className="nav-item">
@@ -331,7 +333,6 @@ const Layout = ()=>{
                                     
           </div>
           
-        
       </div>
       
       

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import Layout from './layout';
 
 
 const Invigilators = ()=>{
@@ -46,7 +47,12 @@ const Invigilators = ()=>{
 
 
     return (
-        <div style={{ position: 'absolute', top: '1em',left: '20em' ,width: '50em'}}>
+
+        <div>
+
+        {Layout && <Layout />}
+
+        <div style={{ position: 'absolute', top: '7em',left: '19em' ,width: '60em'}}>
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card">
             <h5 class="card-header">Exam Invigilator</h5>
@@ -58,7 +64,7 @@ const Invigilators = ()=>{
                                 <th style={{ paddingLeft: '5em',paddingRight: '5em' }}>Name</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
-                                <th>Info</th>
+                               
                                 
                             </tr>
                         </thead>
@@ -72,8 +78,7 @@ const Invigilators = ()=>{
                                             <td>{invigilator.invigilator_name}</td>
                                             <td><button className="btn btn-warning">Edit</button></td>
                                             <td><button className="btn btn-danger">Delete</button></td>
-                                            <td><button className="btn btn-info">More</button></td>
-                                            
+                                                                                      
                                     </tr>
                                     )
                                 })
@@ -101,6 +106,8 @@ const Invigilators = ()=>{
     </div>
         
         
+        </div>
+
         </div>
     )
 }

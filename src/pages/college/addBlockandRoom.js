@@ -4,6 +4,7 @@ import validator from 'validator'
 import RoomTab from './assignRoom'
 import AssignRoomToDepartment from './assignRoomToDepartment'
 import { Link, useHistory } from 'react-router-dom'
+import Layout from './layout'
 var _ = require('lodash');
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
@@ -55,8 +56,18 @@ const AddBlockandRoom = (props) => {
     const[myBlock,setMyBlock] = useState([])
     const[update,setUpdate] = useState(false)
     const[block_id,setBlock_id] = useState('')
+    const[block_name,setBlockName] = useState('')
+    const[blockOwner,setBlockOwner] = useState()
     const[user,setUser] = useState(null)
+    const[selectedBlocks,setSelectedBlocks] = useState([])
+    const[blockInfo,setBlockInfo] = useState()
 
+
+    const [liColor, setLiColor] = useState('')
+    const [borderColor, setBorderColor] = useState('darkgray')
+    const [selectedRooms,setSelectedRooms] = useState([])
+    const tempRoom = []
+    
     //const block = [57,58]
     
     const SelectBlockDropdown = (props)=>{
@@ -67,14 +78,16 @@ const AddBlockandRoom = (props) => {
     }
 
     const SelectedBlocks = (props)=>{
-
+        const selectedBlock = []
+       
+        
         return(
             <tr>
                 <td>
                         Block
                 </td>
                 <td>
-                        {props.block.block_name}
+                        {props.block.block_name}    
                 </td>
                 <td>
                         <button to="" onClick={()=>{}} className="btn btn-warning">Edit</button>
@@ -110,7 +123,7 @@ const AddBlockandRoom = (props) => {
                 method: 'get',
                 url: '/registrar/get/blocks'
             }).then((response)=>{
-                console.log(response.data.block)
+                //console.log(response.data.block)
                 
                 setBlock(response.data.block)
               
@@ -128,12 +141,12 @@ const AddBlockandRoom = (props) => {
             //console.log(response)
              await axios({
                 method: 'post',
-                url: '/college/get/block/',
+                url: '/college/get/block',
                 data:{
                     'college_id' : college_id
                 }
             }).then((response)=>{
-               // console.log(response.data.block)
+                console.log(response.data)
                 
                setMyBlock(response.data.block)
               
@@ -176,6 +189,7 @@ const AddBlockandRoom = (props) => {
                 method: 'post',
                 url: '/college/use/block/',
                 data:{
+                    'block_name': block_name,
                     'block_id': block_id,
                     'college_id' : user.college_id
                 }
@@ -225,11 +239,77 @@ const AddBlockandRoom = (props) => {
 
     }
  
+    const SelectBlockOwner = (e)=>{
+        e.preventDefault();
+
+      
+        if(blockOwner != e.target.textContent.split(' ')[1] || blockOwner == 'undefined' ){
+            setSelectedRooms([])
+            setBlockOwner(e.target.textContent.split(' ')[1])
+            console.log('block-owner',blockOwner)
+        }
+        
+    }
+
+    const MultipleSelectRooms = (e)=>{
+        e.preventDefault()
+         
+        e.target.style.background = 'paleturquoise';
+        e.target.style.border = '1px solid #654';
+    
+        if(tempRoom.indexOf(e.target.innerHTML) !== -1){
+        
+            e.target.style.background = 'white';
+            var i = tempRoom.indexOf(e.target.innerHTML);
+            if(i >= 0) {
+                tempRoom.splice(i,1);
+            }
+
+        } else{
+        
+            tempRoom.push(e.target.innerHTML)
+        }
+        
+    
+        console.log(tempRoom)
+        
+       
+        return tempRoom
+    }
+    const UseRoom = async()=>{
+
+        await axios({
+            method: 'post',
+            url: '',
+            data:{
+                
+            }
+        })
+
+
+
+
+
+
+
+
+    }
+    
+
     useEffect(() => {
        
         (
             async()=>{
-                const response = await axios(
+                await axios(
+                    {
+                        method: 'get',
+                        'url':  '/college/current',
+                        headers:{
+                            'Authorization' : localStorage.getItem('c_auth') 
+                        }
+                    }
+                  ).then((res)=>setUser(res.data));
+                  await axios(
                     {
                         method: 'get',
                         'url':  '/college/current',
@@ -241,20 +321,22 @@ const AddBlockandRoom = (props) => {
             }
         )();
 
-        GetMyDepartment()
+       
         GetAllBlock()
         GetMyBlock()
         GenerateRoom()
-
+        GetMyDepartment()
         UsedBlocks()
+      
        
-        //setBlock(block)
-        console.log((Block));
     }, [update])
 
     
     return(
-        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 mb-5"  style={{  position:'absolute', top:'2em',marginLeft: '20em', }}>
+        <div>
+
+        {Layout && <Layout />}
+        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 mb-5"  style={{  position:'absolute', top:'8em',marginLeft: '20em', }}>
         <div class="section-block">
             <h2 class="section-title">Block and Room </h2>
         </div>
@@ -291,20 +373,11 @@ const AddBlockandRoom = (props) => {
                                
                             { Block &&
                                 Block.map((block)=>{
-                                   return <option onClick={(e)=>setBlock_id(block.id)} key={block.id} value={block.block_name}>{block.block_name}</option>
+                                   return <option onClick={(e)=>{setBlock_id(block.id);setBlockName(block.block_name)}} key={block.id} value={block.block_name}>{block.block_name}</option>
                                     
                                 })
                             }
 
-                          
-                           
-
-                                <div class="input-group mb-3">
-                                                <input type="text" class="form-control" />
-                                                <div class="input-group-append">
-                                                    <button type="button" class="btn btn-primary">Go!</button>
-                                                </div>
-                                </div>
                                 
                           </select>
 
@@ -325,42 +398,71 @@ const AddBlockandRoom = (props) => {
                     </form>
                 </div>
             
-            </div>
-            
-
-
-            <div class="card" style={{ width: '580px' }}>
-            <h5 class="card-header">Selected Blocks for this College</h5>
-            <div class="card-body">
-                <ul class="list-group">
-                    <table className="table table-border table-striped table-hover">
-
-                    { myBlock &&
-                        myBlock.map((block)=>{
-                            return <SelectedBlocks block={block} />
-                        })
-                    } 
-                
-                    
-                    </table>
-                   
-                </ul>
-            </div>
-        </div>
-
-                        
+            </div>            
             </div>
                 <div class="tab-pane fade" id="outline-two" role="tabpanel" aria-labelledby="tab-outline-two">
                       <p style={{padding:'1em'}} className="card">Please Select Rooms from each block which are assigned to this college only.This selection help you to give Specific Rooms to Departments in the next Tab.</p>
                         
                         
                       
-                    { Block &&
-                        Block.map((block)=>{
+                    { myBlock &&
+                        myBlock.map((block)=>{
                             return (
-                                <div>
+                                <div key={block.id}>
+                                <div class="accrodion-regular">
+                        <form>
+                            <div id="accordion3">
+                                <div class="card">
+                                    <div class="card-header" id="headingSeven">
+                                        <h5 class="mb-0">
+                                        <button onClick={(e)=>{SelectBlockOwner(e)}} class="btn btn-link collapsed" data-toggle="collapse" data-target={'#col-'+block.id} aria-expanded="false" aria-controls="collapseSeven">
+                                            <span class="fas mr-3 fa-angle-down"></span>Block {block.block_name}
+                                        </button>
+                                        </h5>
+                                    </div>
+                                <div id={'col-'+block.id} class="collapse" aria-labelledby="headingSeven" data-parent="#accordion3" >
+                                <div class="card">
                                     
-                                    <RoomTab block={block} room={Room} collapse={'col-'+block.block_name} />  
+                                <h2 class="card-header">Select Your Given Rooms</h2>
+                                <div class="card-body">
+                                    <form id="form" data-parsley-validate="">
+                    
+                                    <div class="card" style={{ marginTop: '3em' }}>
+                                    <h5 class="card-header">Room : </h5>
+                                    <div class="card-body">
+                                        <ul class="list-group" style={{ height: '36vh',overflowY: 'scroll' }}>
+                                        
+                                            {
+                                                Room.map((room)=>{
+                                                    return  <li style={{border: `1px solid ${borderColor}`}} className="list-group-item" onClick={(e)=>{MultipleSelectRooms(e)}}>{room}</li>
+                                                    
+                                                })
+                                               
+                                            }
+                                    
+                                        
+                                        </ul>
+                                </div>
+                        </div>
+                                        <div class="col-sm-6 pl-0">
+                                        <p class="text-center">
+                                            <button type="submit" style={{width: '15em'}} onClick={(e)=>{e.preventDefault()}} class="btn btn-space btn-success">Use Rooms</button>
+                                    
+                                                            </p>
+                                                        </div>
+                                                        </form>
+                                                    </div>
+                                    </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>        
+                        </div>
+                                
+                                     
+                                
+                                
                                 </div>
                             )
                         })
@@ -372,11 +474,7 @@ const AddBlockandRoom = (props) => {
             
                 </div>
                 
-                
-                
-                
-                
-                
+             
                 <div class="tab-pane fade" id="outline-three" role="tabpanel" aria-labelledby="tab-outline-three">
 
 
@@ -392,7 +490,9 @@ const AddBlockandRoom = (props) => {
                 </div>
             </div>
         </div>
-    </div>    )
+    </div>
+</div>
+    )
 }
 
 

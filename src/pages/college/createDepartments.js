@@ -55,7 +55,7 @@ const CreateCollege = () => {
     useEffect(() => {
         (
             async ()=>{
-                const response = await axios.get('/college/current',{headers:{
+                 await axios.get('/college/current',{headers:{
                     'Authorization' : localStorage.getItem('c_auth')
                 }}).then((response)=>{
                     console.log(response.data.college_id)

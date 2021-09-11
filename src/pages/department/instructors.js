@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useHistory } from 'react-router-dom';
 import date from 'date-and-time';
 import React from 'react';
+import Layout from './layout'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 axios.defaults.withCredentials = true; 
@@ -131,15 +132,18 @@ const Instructors = ()=> {
     
 
     return(
-        <div style={{ position:'absolute',top:'1%',left:'15%' }}>
+        <div>
+        {Layout && <Layout />}
+
+        <div style={{ position:'absolute',top:'15%',left:'25%',width: '60%' }}>
                
         <div className="card">
         <div className="card-header">
-            <h5 className="mb-0">Instructors of your college in Addis Ababa Science and Technology University </h5>
+            <h4 className="mb-0">Instructors of your college in Addis Ababa Science and Technology University </h4>
             <p></p>
         </div>
         <div className="card-body">
-            <div className="table-responsive">
+            <div className="table-responsive" style={{ height:'80vh',overflowY:'scroll' }}>
                 <table id="example2" className="table table-striped table-bordered" style={{ width:"100%" }}>
                     <thead>
                         <tr>
@@ -153,7 +157,7 @@ const Instructors = ()=> {
                     </thead>
                     <tbody>
                     
-                    {
+                    {instructors &&
                         instructors.length >=1 ? 
                         instructors.map((instructor)=>{
                            return <Row instructor={instructor} key={instructor.id} />
@@ -170,6 +174,7 @@ const Instructors = ()=> {
         </div>
     </div>
 
+        </div>
         </div>
     )
 }

@@ -1,8 +1,9 @@
-import React, { Component, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import _, { toUpper } from 'lodash'
-import axios from 'axios';
+import axios from 'axios'
+import _ from 'lodash'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Layout from './layout'
+
 
 
 const Success = (props)=>{
@@ -26,40 +27,44 @@ const InputAlert = (props)=>{
     )
 }
 
-const AddCourse = ()=>{ 
 
+const EditCourse = (props)=>{ 
 
-    const[courseTitle,setCourse] = useState('')
+    
+
+    const course = props.location.state
+
+    const[courseTitle,setCourse] = useState(course.course_title)
     const[courseTitleErr,setCourseTitleErr] = useState(false)
     
-    const[courseCode,setCourseCode] = useState('')
+    const[courseCode,setCourseCode] = useState(course.course_code)
     const[courseCodeErr,setCourseCodeErr] = useState(false)
     
-    const[year,setYear] = useState('')
+    const[year,setYear] = useState(course.year)
     const[yearErr,setYearErr] = useState(false)
     
+    const[semester,setSemester] = useState(course.semester)
+    const[semesterErr,setSemesterErr] = useState(false)
     
-    const[hasLab,setHasLab] = useState('')
+    const[hasLab,setHasLab] = useState(course.course_has_lab)
     const[hasLabErr,setHasLabErr] = useState(false)
     
-    const[hasLecture,setHasLecture] = useState(1)
+    const[hasLecture,setHasLecture] = useState(course.course_has_lecture)
     const[hasLectureErr,setHasLectureErr] = useState(false)
     
-    const[courseType,setCourseType] = useState('')
+    const[courseType,setCourseType] = useState(course.course_type)
     const[courseTypeErr,setCourseTypeErr] = useState(false)
     
-    const[courseCreditHour,setCourseCreditHour] = useState('')
+    const[courseCreditHour,setCourseCreditHour] = useState(course.course_credit_hour)
     const[courseCreditHourErr,setCourseCreditHourErr] = useState(false)
     
     const[validateOnUpdate,setValidateOnUpdate] = useState(false)
 
     const[department_id,setDepartmentID] = useState()
-    const[course_id,setCourseID] = useState()
+    
     const[success,setSuccess] = useState(false)
     const[notSuccess,setNotSuccess] = useState(false)
-
-    const[courseTracker,setCourseTracker] = useState('Major_course')
-    const[departments,setDepartments] = useState([])
+    
     const makeBorderAlert = (tagId,status)=>{
         
         const element = document.getElementById(tagId);
@@ -71,84 +76,15 @@ const AddCourse = ()=>{
         }
         
     }
-    const validate = () => {
-        setValidateOnUpdate(true)
-        const response = []
-        if(_.isEmpty(courseTitle)){
-            setCourseTitleErr('Please Provide Course Title')
-
-            response.push(false)
-        }
-        if(_.isEmpty(courseCode)){
-            setCourseCodeErr('Please Provide Course Code')
-            response.push(false)
-        }
-        if(_.isEmpty(year)){
-            setYearErr('Please Provide a Year')
-            response.push(false)
-        }
-        if(_.isEmpty(hasLab)){
-            setHasLabErr('Please Select an option ')
-            response.push(false)
-        }
-        if(_.isEmpty(hasLecture)){
-            setHasLectureErr('Please Select an option')
-            response.push(false)
-        }
-        if(_.isEmpty(courseType)){
-            setCourseTypeErr('Please Select an Course Type')
-            response.push(false)
-        }
-        if(_.isEmpty(courseCreditHour)){
-            setCourseCreditHourErr('Please Provide a Course Credit Hour')
-            response.push(false)
-        }
-        if(response.length == 0){
-            setValidateOnUpdate(false)
-            return true;
-        }else{
-            return false;
-        }
-       
-    }
-
-
-    const SelectDepartment = ()=>{
-
-        return(
-                <div>
-                    <div class="col-lg-12" style={{ width: '25em',marginLeft: '9.5em',marginTop: '1em' }}>
-                    <label class="col-lg-4 col-form-label">Select Course Owner
-                                           
-                    </label>
-                        <select onClick={(e)=>{}} class="form-control" id="val-year" name="val-skill">
-
-                            {departments &&
-                                departments.map((department)=>{
-                                    
-                                    return <option value={department.id}>{department.name}</option>
-                                })
-                            }
-                        </select>
-                    </div>
-                        
-                </div>
-
-        )
-    }
-
-
-
+   
 
     const CreateCourse = async (e)=>{
         e.preventDefault()
 
-        try{
-        const isValidated = validate()
-        if(isValidated){
+    try{
             axios({
                 method: 'post',
-                url: '/department/course/create',
+                url: `/department/course/edit/${course.id}`,
                 data:{
                     'course_title' : courseTitle,
                     'year' : year,
@@ -163,44 +99,22 @@ const AddCourse = ()=>{
             }).then((response)=>{
                 //console.log(response.data.Error_detail)
                 
-                setNotSuccess(false)
-                setSuccess(false)
-
-                if(response.data.course){
-                    setSuccess('Course Create Successfully')
-                    setCourseID(response.data.course.id)
-                }
-                if(response.data.Error_detail){
-                    
+               
+                if(response.data.Error_detail){    
                     setNotSuccess('Something Went Wrong Please Try Again...') 
+                }else{
+                    setNotSuccess(false)
+                    setSuccess('Course Edited Successfully')
+                    setTimeout(()=>{ props.history.push({ pathname: `/department/courses`})},3000)
+                   
                 }
 
-                if(response.data.Message == 'Course Already Exists'){
-                    setSuccess(false)
-                    setNotSuccess('Course Already Exists') 
-                    
-                }
+                
             }).catch((e)=>{
                 
                 setNotSuccess(true) 
             })
-
-            await axios({
-                method: 'post',
-                url: '/department/course/owner',
-                data:{
-                    'course_id' : course_id,
-                    'department_id' : department_id,
-
-                }
-            }).then((response)=>{
-               console.log(response)
-            })
-
-
-        }else{
-         //   console.log('not validated')
-        }
+       
 
     }catch(e){
         //console.log(e)
@@ -214,32 +128,29 @@ const AddCourse = ()=>{
         (
             async()=>{
                  await axios.get('/department/current',{headers:{'Authorization': localStorage.getItem('d_auth')}}).then((response)=>{
-                    console.log(response.data.id)
+                   // console.log(response.data.id)
                     setDepartmentID(response.data.id)
-                })
-
-                await axios.get('/department/all',{headers:{'Authorization': localStorage.getItem('d_auth')}}).then((response)=>{
-                    console.log(response.data.id)
-                    setDepartments(response.data.department)
-                    console.log(response.data.department)
                 })
             }
         )();
+        //console.log(props.location.state)
     }, [department_id])
     
 
 
         return(
             <div>
-            
-            {Layout && <Layout />}
-            <div style={{ position:'absolute', top:'15%',left: '30%',width: '40%',height: '90vh',overflowY:'scroll' }}>
+           {Layout &&  <Layout />}
+       
+    
+            <div style={{ position: 'absolute', top: '8em',left: '30em',height: '84vh',overflowY: 'scroll'}}>
+           
             <div class="col-lg-12">
             <div class="card">
                 {success && <Success message={success}/>}
                 {notSuccess && <InputAlert message={notSuccess} />}
                 <div class="card-header">
-                    <h3 class="card-header-title">Create Course</h3>
+                    <h3 class="card-header-title">Edit Course</h3>
                 </div>
                 <div class="card-body">
                     <div class="form-validation">
@@ -251,7 +162,7 @@ const AddCourse = ()=>{
                                            
                                         </label>
                                         <div class="col-lg-12">
-                                            <input type="text" onChange={(e)=>{setCourseTitleErr(false);  makeBorderAlert('val-course-title',e.target.value);setCourse(e.target.value)}} class="form-control" id="val-course-title" name="val-username" placeholder="Course Title" />
+                                            <input type="text" value={courseTitle} onChange={(e)=>{setCourseTitleErr(false);  makeBorderAlert('val-course-title',e.target.value);setCourse(e.target.value)}} class="form-control" id="val-course-title" name="val-username" placeholder="Course Title" />
                                             {courseTitleErr && <InputAlert message={courseTitleErr}/>}
                                             </div>
                                     </div>
@@ -260,7 +171,7 @@ const AddCourse = ()=>{
                                        
                                     </label>
                                     <div class="col-lg-12">
-                                        <input type="text"  onChange={(e)=>{setCourseCodeErr(false);makeBorderAlert('val-course-code',e.target.value);setCourseCode(e.target.value)}} class="form-control" id="val-course-code" name="val-username" placeholder="Course Code" />
+                                        <input type="text" value={courseCode} onChange={(e)=>{setCourseCodeErr(false);makeBorderAlert('val-course-code',e.target.value);setCourseCode(e.target.value)}} class="form-control" id="val-course-code" name="val-username" placeholder="Course Code" />
                                         {courseCodeErr && <InputAlert message={courseCodeErr}/>}
 
                                         </div>
@@ -271,7 +182,7 @@ const AddCourse = ()=>{
                                    
                                 </label>
                                 <div class="col-lg-12">
-                                    <select onClick={(e)=>{setYearErr(false); makeBorderAlert('val-year',e.target.value);setYear(e.target.value)}} class="form-control" id="val-year" name="val-skill">
+                                    <select value={year} onClick={(e)=>{setYearErr(false); makeBorderAlert('val-year',e.target.value);setYear(e.target.value)}} class="form-control" id="val-year" name="val-skill">
                                         <option >Please select</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -285,8 +196,6 @@ const AddCourse = ()=>{
 
                                 </div>
                             </div>
-
-                           
                                    
                                 </div>
                                 <div class="col-xl-12">
@@ -297,7 +206,7 @@ const AddCourse = ()=>{
                                    
                                 </label>
                                 <div class="col-lg-12">
-                                    <select onClick={(e)=>{setHasLabErr(false);  makeBorderAlert('val-has-lab',e.target.value);makeBorderAlert('val-has-lab',hasLab);setHasLab(e.target.value)}} class="form-control" id="val-has-lab" name="val-skill">
+                                    <select value={hasLab} onClick={(e)=>{setHasLabErr(false);  makeBorderAlert('val-has-lab',e.target.value);makeBorderAlert('val-has-lab',hasLab);setHasLab(e.target.value)}} class="form-control" id="val-has-lab" name="val-skill">
                                         <option >Please select</option>
                                         <option value="1">Yes</option>
                                         <option value="0">No</option>
@@ -315,8 +224,9 @@ const AddCourse = ()=>{
                                
                             </label>
                             <div class="col-lg-12">
-                                <select onClick={(e)=>{setHasLectureErr(false);makeBorderAlert('val-has-lecture',e.target.value);setHasLecture(e.target.value)}} class="form-control" id="val-has-lecture" name="val-skill">
-                                    <option value="1" defaultValue>Yes</option>
+                                <select value={hasLecture} onClick={(e)=>{setHasLectureErr(false);makeBorderAlert('val-has-lecture',e.target.value);setHasLecture(e.target.value)}} class="form-control" id="val-has-lecture" name="val-skill">
+                                    <option defaultValue>Please select</option>
+                                    <option value="1">Yes</option>
                                     <option value="0">No</option>
                                    
                                 </select>
@@ -329,27 +239,25 @@ const AddCourse = ()=>{
                                    
                                 </label>
                                 <div class="col-lg-12">
-                                    <select onClick={(e)=>{ setCourseTracker(e.target.value);setCourseTypeErr(false); makeBorderAlert('val-course-type',e.target.value);setCourseType(e.target.value)}} class="form-control" id="val-course-type" name="val-skill">
-                                       
-                                        <option value="Major_course" defaultValue>Major Course</option>
+                                    <select value={courseType} onClick={(e)=>{setCourseTypeErr(false); makeBorderAlert('val-course-type',e.target.value);setCourseType(e.target.value)}} class="form-control" id="val-course-type" name="val-skill">
+                                        <option defaultValue>Please select</option>
+                                        <option value="Major_course">Major Course</option>
                                         <option value="Common_course">Common Course</option>
                                         <option value="Supporting_course">Supporting Course</option>
                                     
                                     </select>
                                 
-                               
+                                {courseTypeErr && <InputAlert message={courseTypeErr}/>}
 
                                     
                                 </div>
-                                {courseTracker != 'Major_course' && <SelectDepartment />} 
                             </div>
-
                                  
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-form-label" for="val-credit-hour">Credit Hour
                                         </label>
                                         <div class="col-lg-12">
-                                            <input type="number"  onChange={(e)=>{setCourseCreditHourErr(false);makeBorderAlert('val-credit-hour',e.target.value);setCourseCreditHour(e.target.value)}} class="form-control" id="val-credit-hour" name="val-digits" placeholder=" Credit Hour" />
+                                            <input type="number" value={courseCreditHour}  onChange={(e)=>{setCourseCreditHourErr(false);makeBorderAlert('val-credit-hour',e.target.value);setCourseCreditHour(e.target.value)}} class="form-control" id="val-credit-hour" name="val-digits" placeholder=" Credit Hour" />
                                         {courseCreditHourErr && <InputAlert message={courseCreditHourErr}/>}
 
                                         </div>
@@ -360,7 +268,7 @@ const AddCourse = ()=>{
                                     <div class="form-group row">
                                         <div class="col-lg-8 ml-auto">
                                             <button type="submit" onClick={(e)=>{CreateCourse(e)}} style={{float: 'center'}} class="btn btn-success">Save</button>
-                                            <Link to="/" style={{margin: '2px 6px'}} class="btn btn-danger">Cancel</Link>
+                                            <Link to="/department/courses" style={{margin: '2px 6px'}} class="btn btn-danger">Cancel</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -373,10 +281,10 @@ const AddCourse = ()=>{
             
             
             </div>
-            </div>
+    </div>
         )
     
 
 }
 
-export default AddCourse
+export default EditCourse

@@ -2,6 +2,7 @@ import react, { useEffect, useState } from 'react'
 import axios from 'axios'
 import validator from 'validator'
 import { useHistory } from 'react-router-dom'
+import Layout from './layout'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 axios.defaults.withCredentials = true;
@@ -134,6 +135,7 @@ const CreateInstructor = () => {
                     setSuccess(true)
                         //should redirect                        
                   }
+
                   
               }
 
@@ -142,9 +144,11 @@ const CreateInstructor = () => {
     
 
     return(
+        <div>
+        {Layout && <Layout />}
         <div style={{ position:'relative',left:'30em' }}>
             <div className="card" >
-            <h5 className="card-header">Create Department</h5>
+            <h5 className="card-header">Create Instructor</h5>
                 <div className="card-body">
                 { success && <Success message="Successfully Created. Email Has been sent to Department Head. " />}
                     <form id="form" data-parsley-validate="" >
@@ -180,6 +184,7 @@ const CreateInstructor = () => {
                     </form>
                 </div>
             </div>
+        </div>
         </div>
     )
 }

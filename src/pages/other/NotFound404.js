@@ -10,7 +10,7 @@ const NotFound404 = ()=>{
                         <div className="col-md-5">
                             <div className="form-input-content text-center">
                                 <div className="mb-5">
-                                    <a className="btn btn-primary" href="./index.html">Back to Home</a>
+                                    <a className="btn btn-primary" href="/">Back to Home</a>
                                 </div>
                                 <h1 className="error-text font-weight-bold">404</h1>
                                 <h4 className="mt-4"><i className="fa fa-exclamation-triangle text-warning"></i> The page you were looking for is not found!</h4>

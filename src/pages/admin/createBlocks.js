@@ -2,6 +2,7 @@ import react, { Component, useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link, useHistory } from 'react-router-dom'
 import { render } from '@testing-library/react';
+import Layout from './layout';
 
 var _ = require('lodash');
 
@@ -147,7 +148,10 @@ class CreateBlocks extends Component {
 
     render(){
         return(
-            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 mb-5"  style={{  position:'absolute', top:'2em',marginLeft: '20em', }}>
+    <div>
+
+    {Layout && <Layout />}
+        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 mb-5"  style={{  position:'absolute', top:'2em',marginLeft: '20em', }}>
             <div class="section-block">
                 <h2 class="section-title">University Block Manager</h2>
             </div>
@@ -240,7 +244,10 @@ class CreateBlocks extends Component {
                     
                 </div>
             </div>
-        </div>    )
+        </div>    
+    </div>
+
+        )
     
     }
 

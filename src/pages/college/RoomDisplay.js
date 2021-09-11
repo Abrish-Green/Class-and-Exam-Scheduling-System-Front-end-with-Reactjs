@@ -6,6 +6,10 @@ const RoomDisplay = (props)=>{
         const [borderColor, setBorderColor] = useState('darkgray')
         const [selectedRoom,setSelectedRoom] = useState()
         const tempRoom = []
+
+        console.log(selectedRoom)
+
+        
        
        
        

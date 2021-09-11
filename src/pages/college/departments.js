@@ -98,7 +98,7 @@ const Department = ()=> {
                     </thead>
                     <tbody>
                     
-                    {
+                    {departments &&
                         departments.map((department)=>{
                            return <Row department={department} key={department.id} />
                         })

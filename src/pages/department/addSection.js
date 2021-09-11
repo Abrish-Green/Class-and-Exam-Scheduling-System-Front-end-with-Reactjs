@@ -5,6 +5,7 @@ import AddCourse from '../department/addDepartmentCourse'
 
 import { Link, useHistory } from 'react-router-dom'
 import { isNumber } from 'lodash'
+import Layout from './layout'
 var _ = require('lodash');
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
@@ -67,7 +68,7 @@ const Info = ()=>{
             )
 }
 
-    const DeleteYear = async (e,year,department_id,type)=>{
+const DeleteYear = async (e,year,department_id,type)=>{
         e.preventDefault()
 
 
@@ -107,7 +108,7 @@ const Info = ()=>{
 
     }
 
-    const ChooseYearSemester = ()=>{
+const ChooseYearSemester = ()=>{
 
 
         return(
@@ -117,9 +118,7 @@ const Info = ()=>{
         )
     }
 
-
-
-    const CreateSection = (e,type)=>{
+const CreateSection = (e,type)=>{
         e.preventDefault()
 
 
@@ -250,7 +249,7 @@ const Info = ()=>{
         
     }
    
-    const GetAllSections = (e)=>{
+const GetAllSections = (e)=>{
 
         (
             async()=>{
@@ -341,7 +340,7 @@ const Info = ()=>{
 }
 
 
-    const DisplayAllYears = (props)=>{
+const DisplayAllYears = (props)=>{
 
         const Year = [null,'First Year (Fresh)','Second Year','Third Year','Fourth Year','Fifth Year','Sixth Year']
         const [realYear, setRealYear] = useState()
@@ -392,12 +391,7 @@ const Info = ()=>{
                             </div>
                                     
 
-                                    <div class="col-sm-6 pl-0">
-                                    <p class="text-center">
-                                        <button type="submit" style={{width: '15em'}} onClick={(e)=>{e.preventDefault()}} class="btn btn-space btn-success">Use Rooms</button>
-                                
-                                        </p>
-                                    </div>
+                                   
                                 </form>
                             </div>
                         </div>
@@ -411,8 +405,7 @@ const Info = ()=>{
     }
 
 
-
-    useEffect(() => {
+useEffect(() => {
      
         if(yearError || success || already || info){
             setTimeout(()=>{setInfo(false);setSuccess(false);setAlready(false)},3000)
@@ -436,7 +429,16 @@ const Info = ()=>{
 
     
     return(
-        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 mb-5"  style={{  position:'absolute', top:'2em',marginLeft: '20em', }}>
+
+
+        <div>
+        
+        
+        {Layout && <Layout />}
+
+
+
+        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 mb-5"  style={{  position:'absolute', top:'2em',marginLeft: '20em',width:'100em' }}>
         <div class="section-block">
             <h2 class="section-title"> Section Configration</h2>
         </div>
@@ -577,11 +579,6 @@ const Info = ()=>{
   </div>
 
 
-
-
-
-
-
                         
             </div>
                 <div class="tab-pane fade" id="outline-two" role="tabpanel" aria-labelledby="tab-outline-two">
@@ -620,7 +617,9 @@ const Info = ()=>{
                 </div>
             </div>
         </div>
-    </div>    )
+    </div> 
+</div>
+    )
 }
 
 
