@@ -59,15 +59,19 @@ const EditDepartmentHead = (props) => {
         (
             async ()=>{
                 const response = await axios.get('/college/current').then((response)=>{
+
                     setUser(response.data)
+                    
                 })
-                setdepartmentName(props.location.state.name)
-                setdepartmentHead(props.location.state.email)
-                setDepartmentID(props.location.state.id)
-                console.log( props.location.state.email)
-                setDepartmentID(await props.location.state.id)
-            }
+               
+                }
         )();
+
+        setdepartmentName(props.location.state.name)
+        setdepartmentHead(props.location.state.email)
+        setDepartmentID(props.location.state.id)
+        console.log( props.location.state.email)
+        setDepartmentID(props.location.state.id)
        
     }, [])
 

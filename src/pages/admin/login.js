@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useCookies } from 'react-cookie';
 import { Redirect } from 'react-router-dom';
 import {useHistory} from 'react-router-dom'
+import Session from 'react-session-api'
 
 
 
@@ -98,6 +99,8 @@ const AdminLogin = (props)=>{
                 localStorage.setItem('r_auth', "Bearer "+response.data.Token);
                 setSuccess(true)
                 console.log('success',success)
+                Session.set('isRegistrarAuth',true)
+                localStorage.setItem('isRegistrarAuth',response.data.Token)
                 setTimeout(()=>{history.push('/admin')},1000)
                 
               }

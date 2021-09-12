@@ -106,7 +106,9 @@ const CollegeLogin = (props)=>{
                         //redirect to home
                         //console.log('completed')
                         console.log(response.data.Token)
+                        localStorage.setItem('isCollegeAuth', response.data.Token);
                         localStorage.setItem('c_auth', "Bearer "+response.data.Token);
+                        props.history.push({ pathname: '/college/'});
                     }
 
 
@@ -124,10 +126,15 @@ const CollegeLogin = (props)=>{
     return (
         <div className="splash-container Admin-login">
         <div className="card ">
-            <div className="card-header text-center"><a href="../index.html">
-            <img style={{height:'18vh'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
-            </a><span className="splash-description">College Login</span>
-            </div>
+        <div style={{ marginLeft:'4em' }}>
+        <div className="card-header text-center"><a href="../index.html">
+            <img style={{height:'18vh',marginLeft:'1em'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
+            </a>
+        </div>
+        <div>
+        <h2 className="">College Login</h2>
+        </div>
+    </div>
             <div className="card-body">
             { success && <Success message="Login was Successful" />}
             { failedLogin && <InputAlert message="User Not Found. Try Again" />}

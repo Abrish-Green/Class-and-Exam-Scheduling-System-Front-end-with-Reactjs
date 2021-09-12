@@ -145,8 +145,11 @@ const AddCourse = ()=>{
 
         try{
         const isValidated = validate()
+
+        console.log('is validated',isValidated)
+
         if(isValidated){
-            axios({
+           await axios({
                 method: 'post',
                 url: '/department/course/create',
                 data:{
@@ -157,7 +160,7 @@ const AddCourse = ()=>{
                     'course_has_lab' : hasLab,
                     'course_has_lecture' : hasLecture,
                     'course_type' : courseType,
-                    'course_department_id' : department_id,
+                    'department_id' : department_id,
 
                 }
             }).then((response)=>{
@@ -165,10 +168,22 @@ const AddCourse = ()=>{
                 
                 setNotSuccess(false)
                 setSuccess(false)
-
+                console.log(response.data)
                 if(response.data.course){
                     setSuccess('Course Create Successfully')
                     setCourseID(response.data.course.id)
+                    console.log('success')
+                     axios({
+                        method: 'post',
+                        url: '/department/course/owner',
+                        data:{
+                            'course_id' : response.data.course.id,
+                            'department_id' : department_id,
+        
+                        }
+                    }).then((response)=>{
+                       console.log(response)
+                    })
                 }
                 if(response.data.Error_detail){
                     
@@ -185,17 +200,7 @@ const AddCourse = ()=>{
                 setNotSuccess(true) 
             })
 
-            await axios({
-                method: 'post',
-                url: '/department/course/owner',
-                data:{
-                    'course_id' : course_id,
-                    'department_id' : department_id,
-
-                }
-            }).then((response)=>{
-               console.log(response)
-            })
+           
 
 
         }else{

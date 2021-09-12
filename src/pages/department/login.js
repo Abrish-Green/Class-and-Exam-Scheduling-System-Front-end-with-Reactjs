@@ -99,6 +99,7 @@ const DepartmentLogin = (props)=>{
                         //redirect to home
                         //console.log('completed')
                        // console.log(response.data.token)
+                        localStorage.setItem('IsDepartmentAuth',response.data.token);
                         localStorage.setItem('d_auth', "Bearer "+response.data.token);
                     }
 

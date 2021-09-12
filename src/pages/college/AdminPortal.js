@@ -8,11 +8,11 @@ const AdminPortal = ({auth,component:Component,...rest})=>{
         <Route {...rest} render={
             (props)=>{
               
-                if(localStorage.getItem('isRegistrarAuth')){
+                if(localStorage.getItem('isCollegeAuth')){
                     return <Component {...rest} />
                 }
-                if(!localStorage.getItem('isRegistrarAuth')){
-                    props.history.push('/admin/login')
+                if(!localStorage.getItem('isCollegeAuth')){
+                    props.history.push('/college/login')
                 }
             }
         }/>

@@ -6,6 +6,12 @@ import axios from 'axios'
 
 const Layout = ()=>{
 
+    const Logout =()=>{
+
+        localStorage.removeItem('isRegistrarAuth');
+
+    }
+
     return(
       <div className="admin-layout">
       
@@ -32,7 +38,7 @@ const Layout = ()=>{
                                   </div>
                                   <a className="dropdown-item" href="#"><i className="fas fa-user mr-2"></i>Account</a>
                                   <a className="dropdown-item" href="#"><i className="fas fa-cog mr-2"></i>Setting</a>
-                                  <a className="dropdown-item" href="#"><i className="fas fa-power-off mr-2"></i>Logout</a>
+                                  <a onClick={()=>{Logout()}}className="dropdown-item" href="#"><i className="fas fa-power-off mr-2"></i>Logout</a>
                               </div>
                             
                           </li>
@@ -113,7 +119,7 @@ const Layout = ()=>{
                                  
                               </li>
                               <li className="nav-item">
-                                  <a className="nav-link" href="" ><i className="fas fa-fw fa-inbox"></i>Logout </a>
+                                  <a onClick={()=>{Logout()}} className="nav-link" href="" ><i className="fas fa-fw fa-inbox"></i>Logout </a>
                                   
                               </li>
                           </ul>

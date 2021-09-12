@@ -1,6 +1,7 @@
 import react, { useEffect, SyntheticEvent, useState } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom';
+import Layout from './layout';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 axios.defaults.withCredentials = true; 
@@ -17,6 +18,7 @@ const Department = ()=> {
     const history = useHistory()
     const[college_id,setCollegeID] = useState()
     const[collegeName,setCollegeName] = useState('')
+    const[isID_,setIsID] = useState()
 
 
     
@@ -56,20 +58,25 @@ const Department = ()=> {
 
     useEffect(() => {
         
-
+        try{
         (
             async()=>{
-                const user = axios.get(`college/current`).then((response)=>{
+                await axios.get(`college/current`,{headers:{'Authorization': localStorage.getItem('c_auth')}}).then((response)=>{
                     setCollegeID(response.data.college_id)
                     
+                    
                 });
-                const getDepartment = axios.get(`college/${college_id}/departments`).then((response)=>{
+                
+                const getDepartment =await axios.get(`college/${college_id}/departments`,{headers:{'Authorization': localStorage.getItem('c_auth')}}).then((response)=>{
                     setDepartments(response.data.department)
                     setFetching(false)
                 })
                
             }
         )();
+        }catch(e){
+            console.log(e)
+        }
 
         return () => {
             
@@ -79,7 +86,10 @@ const Department = ()=> {
     //console.log(departments)
 
     return(
-        <div style={{ position:'absolute',top:'1%',left:'30%' }}>
+        <div>
+
+        {Layout && <Layout />}
+        <div style={{ position:'absolute',top:'8em',left:'30em' }}>
                
         <div className="card">
         <div className="card-header">
@@ -113,8 +123,8 @@ const Department = ()=> {
     </div>
 
         </div>
+        </div>
     )
 }
 
 export default Department
-

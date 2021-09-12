@@ -2,6 +2,7 @@ import react, { useEffect, useState } from 'react'
 import axios from 'axios'
 import validator from 'validator'
 import { useHistory } from 'react-router-dom'
+import Layout from './layout';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 axios.defaults.withCredentials = true;
@@ -152,6 +153,9 @@ const CreateCollege = () => {
     
 
     return(
+        <div>
+
+        {Layout && <Layout />}
         <div style={{ position:'relative',left:'30em' }}>
             <div className="card" >
             <h5 className="card-header">Create Department</h5>
@@ -190,6 +194,7 @@ const CreateCollege = () => {
                 </div>
             </div>
         </div>
+    </div>
     )
 }
 

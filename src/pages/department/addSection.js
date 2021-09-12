@@ -79,6 +79,8 @@ const DeleteYear = async (e,year,department_id,type)=>{
                 data:{
                     'year':year,
                     'department_id': department_id 
+                },headers:{
+                    'Authorization': localStorage.getItem('d_auth')
                 }
             }).then((response)=>{
                 console.log(response)
@@ -93,6 +95,8 @@ const DeleteYear = async (e,year,department_id,type)=>{
                 data:{
                     'year':year,
                     'department_id': department_id 
+                },headers:{
+                    'Authorization': localStorage.getItem('d_auth')
                 }
             }).then((response)=>{
                 console.log(response)
@@ -156,6 +160,8 @@ const CreateSection = (e,type)=>{
                             'year': year,
                             'department_id': department_id,
                             'amount': amount
+                        },headers:{
+                            'Authorization': localStorage.getItem('d_auth')
                         }
                       }).then((response)=>{
                          console.log(response.data)
@@ -215,6 +221,8 @@ const CreateSection = (e,type)=>{
                             'year': examYear,
                             'department_id': department_id,
                             'amount': ExamAmount
+                        },headers:{
+                            'Authorization': localStorage.getItem('d_auth')
                         }
                       }).then((response)=>{
                          console.log(response.data)
@@ -259,6 +267,8 @@ const GetAllSections = (e)=>{
                     data: {
                         'year': year,
                         'department_id': department_id,
+                    },headers:{
+                        'Authorization': localStorage.getItem('d_auth')
                     }
                   }).then((response)=>{
                      //console.log(response.data)  
@@ -302,6 +312,8 @@ const GetAllSections = (e)=>{
                 data: {
                     'year': year,
                     'department_id': department_id,
+                },headers:{
+                    'Authorization': localStorage.getItem('d_auth')
                 }
               }).then((response)=>{
                  //console.log(response.data)  

@@ -2,6 +2,7 @@ import react, { useEffect, SyntheticEvent, useState } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom';
 import date from 'date-and-time';
+import Layout from './layout';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 axios.defaults.withCredentials = true; 
@@ -43,6 +44,7 @@ const Department = ()=> {
         const editDepartment = async (e)  =>{
             setFetching(true);
             setUpdated(true)
+            console.log(props.departmentHead)
             history.push({ pathname: `/college/department/head/edit/${props.departmentHead.id}`,state: props.departmentHead});
         }
         const ChangeDepartmentHead = async (e)  =>{
@@ -68,7 +70,7 @@ const Department = ()=> {
     useEffect(() => {
         (
             async()=>{
-                const user = axios.get(`college/current`).then((response)=>{
+                const user = axios.get(`college/current`,{headers:{'Authorization': localStorage.getItem('c_auth')}}).then((response)=>{
                    //setCollegeID(response.data)
                     (
                         async()=>{
@@ -77,6 +79,8 @@ const Department = ()=> {
                                 url: `college/department/heads`,
                                 data:{
                                     'college_id': response.data.college_id
+                                },headers:{
+                                    'Authorization' : localStorage.getItem('c_auth')
                                 }
                             }).then((response)=>{
                                 //console.log(response.data.CREATED_DATA)
@@ -95,12 +99,15 @@ const Department = ()=> {
         return () => {
             
         }
-    }, [fetching])
+    }, [])
 
     //console.log(departments)
 
     return(
-        <div style={{ position:'absolute',top:'1%',left:'15%' }}>
+        <div>
+
+        {Layout && <Layout />}
+        <div style={{ position:'absolute',top:'8em',left:'25em' }}>
                
         <div className="card">
         <div className="card-header">
@@ -122,7 +129,7 @@ const Department = ()=> {
                     </thead>
                     <tbody>
                     
-                    {
+                    {departmentHeads &&
                         departmentHeads.length >=1 ? 
                         departmentHeads.map((department)=>{
                            return <Row departmentHead={department} key={department.id} />
@@ -139,6 +146,7 @@ const Department = ()=> {
         </div>
     </div>
 
+        </div>
         </div>
     )
 }
