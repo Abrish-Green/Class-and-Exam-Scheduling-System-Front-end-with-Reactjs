@@ -32,7 +32,7 @@ const EditCourse = (props)=>{
 
     
 
-    const course = props.location.state
+    const course = props.location.state 
 
     const[courseTitle,setCourse] = useState(course.course_title)
     const[courseTitleErr,setCourseTitleErr] = useState(false)
@@ -93,7 +93,7 @@ const EditCourse = (props)=>{
                     'course_has_lab' : hasLab,
                     'course_has_lecture' : hasLecture,
                     'course_type' : courseType,
-                    'course_department_id' : department_id,
+                    'department_id' : department_id,
 
                 }
             }).then((response)=>{
@@ -140,7 +140,7 @@ const EditCourse = (props)=>{
 
         return(
             <div>
-           {Layout &&  <Layout />}
+          
        
     
             <div style={{ position: 'absolute', top: '8em',left: '30em',height: '84vh',overflowY: 'scroll'}}>

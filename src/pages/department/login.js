@@ -101,6 +101,7 @@ const DepartmentLogin = (props)=>{
                        // console.log(response.data.token)
                         localStorage.setItem('IsDepartmentAuth',response.data.token);
                         localStorage.setItem('d_auth', "Bearer "+response.data.token);
+                        props.history.push({ pathname: '/department/'});
                     }
 
 
@@ -118,10 +119,18 @@ const DepartmentLogin = (props)=>{
     return (
         <div className="splash-container Admin-login">
         <div className="card ">
-            <div className="card-header text-center"><a href="../index.html">
-            <img style={{height:'18vh'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
-            </a><span className="splash-description">Department Head Login</span>
-            </div>
+
+           <div style={{ marginLeft:'3em' }}>
+        <div className="card-header text-center"><a href="../index.html">
+            <img style={{height:'18vh',marginLeft:'1em'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
+            </a>
+        </div>
+        <div>
+        
+        <h2 className="">Department Login</h2>
+        </div>
+    </div>
+
             <div className="card-body">
             { success && <Success message="Login was Successful" />}
             { failedLogin && <InputAlert message="User Not Found. Try Again" />}

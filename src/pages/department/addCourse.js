@@ -346,7 +346,7 @@ const AddCourse = ()=>{
 
                                     
                                 </div>
-                                {courseTracker != 'Major_course' && <SelectDepartment />} 
+                                
                             </div>
 
                                  

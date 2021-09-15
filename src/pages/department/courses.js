@@ -8,7 +8,7 @@ import Layout from './layout'
 const Courses = (props)=>{
     const[department_id,setDepartmentID] = useState()
     const[courses,setcourses] = useState()
-    const history = useHistory
+    const history = useHistory()
     
     const YearColor = [null,'badge badge-primary','badge badge-secondary','badge badge-brand','badge badge-warning','badge badge-success','badge badge-danger']
 
@@ -20,7 +20,7 @@ const Courses = (props)=>{
                 'method': 'post',
                 'url': 'department/courses',
                 data:{
-                    'course_department_id':department_id
+                    'department_id':department_id
                 }}).then((response)=>{
                     console.log(response.data)
                     setcourses(response.data.courses)
@@ -55,7 +55,8 @@ const Courses = (props)=>{
     const Edit =(course)=>{
         (
             async(e)=>{
-            props.history.push({ pathname: `/department/course/edit/`,state: course});
+            
+            history.push({ pathname: `/department/course/edit/`,state: course});
         }
     )();
     }

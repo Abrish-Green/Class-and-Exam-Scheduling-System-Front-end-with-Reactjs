@@ -4,6 +4,122 @@ import aastuLogo from '../../images/logo.png'
 const Home = ()=>{
 
 
+
+
+
+    const Search =()=>{
+                
+
+
+        return(
+        <div class="result">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr style={{ borderBottom: 'none' }}>
+                            <th scope="col" style={{ textAlign: 'center' }} colspan="11">Addis Ababa Science and Technology University</th>                                 
+                        </tr>
+                        <tr style={{ borderBottom: 'none'}}>
+                        <th scope="col" style={{ textAlign: 'center' }} colspan="11">College of Electrical and Mechanical Engineering</th>                                 
+                        </tr>
+                        <tr style={{ borderBottom: 'none'}}>
+                        <th scope="col" style={{ textAlign: 'center' }}  colspan="11">Department of Software Engineering</th>                                 
+                        </tr>
+                        <tr style={{ borderBottom: 'none'}}>
+                        <th scope="col" style={{ textAlign: 'center' }}  colspan="11">Final Exam Schedule</th>                                 
+                        </tr>
+                        <tr>
+                        <th scope="col" colspan="6"></th>                                 
+                        <th scope="col" colspan="2">Acadamic Year : 2021</th>   
+                        <th scope="col" colspan="4">Semester : I </th>                                 
+        
+                        </tr>
+                        <tr>
+                        <th scope="col" colspan="4"></th>                                 
+                        <th scope="col" colspan="3">Program : Degree</th>   
+                        <th scope="col" colspan="2">Enrollement : Regular</th>                                 
+        
+                        </tr>
+                        <tr>
+                                                            
+                            <th scope="col" colspan="10" style={{ textAlign: 'center' }}>From June 30, 2021 G.C  - July 9, 2021 G.C</th>   
+                                                        
+
+                    </tr>
+
+                    
+                    <tr>
+                            <th scope="col" colspan="2">College: Electrical and Mechanical Engineering</th>
+                            <th scope="col" colspan="3">Department: Software Engineering</th>
+                            <th scope="col">Year: II</th>
+                            <th scope="col" colspan="2">Group I </th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td scope="col" colSpan="11"></td>               
+                </tr> 
+                <tr>
+                    <th style={{ color: 'green',fontWeight: 'bold' }} scope="col" colspan="2">Course Title</th>               
+                    <th style={{ color: 'green',fontWeight: 'bold' }} scope="col">Course Code</th>
+                    <th style={{ color: 'green',fontWeight: 'bold' }} scope="col" >Invigilator</th>
+                    <th style={{ color: 'green',fontWeight: 'bold' }} scope="col" colspan="2">Exam Date</th>
+                    <th style={{ color: 'green',fontWeight: 'bold' }}  scope="col">Exam Date</th>
+                    <th style={{ color: 'green',fontWeight: 'bold' }} scope="col">Time Session</th>
+                    <th style={{ color: 'green',fontWeight: 'bold' }} scope="col">Room</th>
+            </tr> 
+            <tr>
+
+                    <th scope="col" colspan="2">Global Trend</th>               
+                    <th scope="col">GLaf1002</th>
+                    <th scope="col" colspan="2">Abdi M. and Mesfin F</th>
+                    <th scope="col">30-Jun-21</th> 		
+                    <th scope="col">Wednsday </th>
+                    <th scope="col">8:30 AM (Morning)</th>
+                    <th scope="col">B57 R101</th>
+            </tr>   
+            <tr>
+
+                    <th scope="col" colspan="2">Global Trend</th>               
+                    <th scope="col" >GLaf1002</th>
+                    <th scope="col" colspan="2">Abdi M. and Mesfin F</th>
+                    <th scope="col">30-Jun-21</th> 		
+                    <th scope="col">Wednsday </th>
+                    <th scope="col">8:30 AM (Morning)</th>
+                    <th scope="col">B57 R101</th>
+            </tr>   
+            <tr>
+
+                    <th scope="col" colspan="2">Global Trend</th>               
+                    <th scope="col">GLaf1002</th>
+                    <th scope="col" colspan="2">Abdi M. and Mesfin F</th>
+                    <th scope="col">30-Jun-21</th> 		
+                    <th scope="col">Wednsday </th>
+                    <th scope="col">8:30 AM (Morning)</th>
+                    <th scope="col">B57 R101</th>
+            </tr>   
+            <tr>
+
+                    <th scope="col" colspan="2">Global Trend</th>               
+                    <th scope="col">GLaf1002</th>
+                    <th scope="col" colspan="2">Abdi M. and Mesfin F</th>
+                    <th scope="col">30-Jun-21</th> 		
+                    <th scope="col">Wednsday </th>
+                    <th scope="col">8:30 AM (Morning)</th>
+                    <th scope="col">B57 R101</th>
+            </tr>   
+                                    
+            </tbody>
+            </table>
+            
+                </div>
+
+        )
+    }
+
+
+
+
+
     return (
         <div className="dashboard-main-wrapper">
 
@@ -37,7 +153,7 @@ const Home = ()=>{
     </div>
 
 
-        <div style={{ position:'absolute',left: '22em',top: '-12em' ,width: '40em'}}>
+        <div style={{ position:'absolute',left: '12em',top: '-12em' ,width: '80em'}}>
             <div class="col-lg-12">
             <div class="card">
              
@@ -48,8 +164,17 @@ const Home = ()=>{
                     <div class="form-validation">
                         <form class="form-valide" action="#" method="post">
                             <div class="row">
-                                
-                               
+                            <div class="col-xl-12">
+                            
+                                <div class="form-group row">
+                            
+                                    <div>
+                                            <Search />
+                                    </div>
+
+                                </div>
+                            </div>
+
                             <div class="col-xl-12">
 
                                 <div class="form-group row">

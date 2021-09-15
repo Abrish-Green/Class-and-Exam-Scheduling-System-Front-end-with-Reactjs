@@ -56,7 +56,7 @@ const CreateCollege = (props) => {
     useEffect(() => {
         (
             async ()=>{
-                const response = await axios.get('/college/current').then((response)=>{
+                const response = await axios.get('/college/current',{headers: {'Authorization': localStorage.getItem('c_auth')}}).then((response)=>{
                     //console.log(response.data.college_id)
                     setUser(response.data)
                 })
@@ -90,6 +90,10 @@ const CreateCollege = (props) => {
         setdepartmentHeadError('')
         if(Validate(e)){
         setLoading(true)
+        var res1 = false;
+        var res2 = false;
+        var res3 = false;
+        try{
             //console.log('00',departmentHead)
             const response1 = await axios({
                 method: 'post',
@@ -102,7 +106,11 @@ const CreateCollege = (props) => {
                     'department_id' : departmentID,
                     'college_id' : college_id
 
-                }
+                },headers: {'Authorization': localStorage.getItem('c_auth')}
+              }).then((response)=>{
+                  console.log(response)
+                  res1 = true;
+                  
               });
               //console.log(response1)
               const response2 = await axios({
@@ -110,27 +118,37 @@ const CreateCollege = (props) => {
                 url: '/college/create-college-user-email',
                 data: {
                     'email': departmentHead,
-                }
+                },headers: {'Authorization': localStorage.getItem('c_auth')}
+              }).then((response)=>{
+                  console.log(response)
+                  res2 = true;
+
               });
              // console.log(response2)
               const response4 = await axios({
                 method: 'post',
                 url: `/college/department-head/delete/${props.location.state.id}`,
+                headers: {'Authorization': localStorage.getItem('c_auth')}
               }).then((response)=>{
-                history.push({ pathname: `/college/department/heads`,state: []});
+                console.log(response)
+                res3 = true;
               });
               //console.log(response2)
                   
-                  if(response1 && response2){
+                  if(res1 && res2 && res3){
                     setLoading(false)    
                     setSuccess(true)
-                    
+                    history.push({ pathname: `/college/department/heads`,state: []});
                         //should redirect                        
                   }
                   
-              }
+              
+        }catch(e){
+            console.log(e)
+        }
 
     }
+}
 
     
 

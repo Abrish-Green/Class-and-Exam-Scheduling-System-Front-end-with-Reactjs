@@ -126,12 +126,14 @@ const CollegeLogin = (props)=>{
     return (
         <div className="splash-container Admin-login">
         <div className="card ">
+
         <div style={{ marginLeft:'4em' }}>
         <div className="card-header text-center"><a href="../index.html">
             <img style={{height:'18vh',marginLeft:'1em'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
             </a>
         </div>
         <div>
+        
         <h2 className="">College Login</h2>
         </div>
     </div>

@@ -12,7 +12,7 @@ const AdminPortal = ({auth,component:Component,...rest})=>{
                     return <Component {...rest} />
                 }
                 if(!localStorage.getItem('isRegistrarAuth')){
-                    props.history.push('/admin/login')
+                    props.history.push('/')
                 }
             }
         }/>

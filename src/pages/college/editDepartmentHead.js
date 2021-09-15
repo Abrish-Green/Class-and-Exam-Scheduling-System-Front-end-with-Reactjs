@@ -58,7 +58,7 @@ const EditDepartmentHead = (props) => {
         
         (
             async ()=>{
-                const response = await axios.get('/college/current').then((response)=>{
+                const response = await axios.get('/college/current',{headers:{'Authorization' : localStorage.getItem('c_auth')}}).then((response)=>{
 
                     setUser(response.data)
                     
@@ -110,7 +110,9 @@ const EditDepartmentHead = (props) => {
                 data: {
                     'name' : departmentName,
                     'email': departmentHead
-                }
+                },
+                headers:{'Authorization' : localStorage.getItem('c_auth')
+            }
               }).then((response)=>{
                   console.log(response)
                   history.push({ pathname: `/college/department/heads`,state: []});

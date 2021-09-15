@@ -105,6 +105,7 @@ const Setting =()=>{
             <div className="card" >
             <h3 className="card-header">Setting</h3>
                 <div className="card-body">
+                {success && <Success message="Exam Date Successfully Set" />}
                
                 <div className="card" >
             <h3 className="card-header">Class Settings</h3>
@@ -114,7 +115,7 @@ const Setting =()=>{
                  
                    
                 <form id="form" data-parsley-validate="" >
-                  {success && <Success message="Exam Date Successfully Set" />}
+                 
                         <div className="form-group row">
                             
                             <p style={{ marginLeft:'1em' }}>Please Enter Exam Starting Data and Ending Date</p> 
@@ -153,7 +154,7 @@ const Setting =()=>{
                
                    
                 <form id="form" data-parsley-validate="" >
-                  {success && <Success message="Exam Date Successfully Set" />}
+                 
                         <div className="form-group row">
                             
                             <p style={{ marginLeft:'1em' }}>Please Enter Exam Starting Data and Ending Date</p> 

@@ -12,7 +12,7 @@ const AdminPortal = ({auth,component:Component,...rest})=>{
                     return <Component {...rest} />
                 }
                 if(!localStorage.getItem('isCollegeAuth')){
-                    props.history.push('/college/login')
+                    props.history.push('/')
                 }
             }
         }/>

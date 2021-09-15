@@ -44,6 +44,7 @@ import DepartmentExamAssignRoom from './pages/department/examRoomAssigner'
 import NotFound404 from './pages/other/NotFound404'
 import Home from './pages/other/home'
 import DepartmentAdmin from './pages/department/AdminPortal'
+import DepartmentAddExamCourse from './pages/department/addExamCourse'
 
 import AdminPortal from './pages/admin/AdminPortal'
 import CommonPage from './pages/admin/layout'
@@ -90,9 +91,9 @@ const App =(props)=>{
                     <Route path="/college/departments" render={(props)=>{return <CollegeAdmin component={Departments}/>}} exact/>
                     <Route path="/college/create-department" render={(props)=>{return <CollegeAdmin component={CreateDepartment}/>}} exact/>
                     <Route path="/college/department/edit/:id" render={(props)=>{return <CollegeAdmin component={EditDepartment}/>}} exact/>
-                    <Route path="/college/department/heads"  component={DepartmentHeads} exact/>
-                    <Route path="/college/department/head/edit/:id"  component={EditDepartmentHead}/>}} exact/>
-                    <Route path="/college/department/head/change/:id" render={(props)=>{return <CollegeAdmin component={ChangeDepartment}/>}} exact/>
+                    <Route path="/college/department/heads"  render={(props)=>{return <CollegeAdmin component={DepartmentHeads} />}} exact/>
+                    <Route path="/college/department/head/edit/:id"  component={EditDepartmentHead} exact/>
+                    <Route path="/college/department/head/change/:id" component={ChangeDepartment} exact/>
                     <Route path="/college/department/select/block" render={(props)=>{return <CollegeAdmin component={CollegeAddBlock}/>}} exact/>
                     <Route path="/college/department/assign/room" render={(props)=>{return <CollegeAdmin component={CollegeAssignRoomToDepartment}/>}} exact/>
 
@@ -112,8 +113,12 @@ const App =(props)=>{
                     
                     <Route path="/department/add/course" render={(props)=>{return <DepartmentAdmin  component={DepartmentAddCourse}  />}} exact/>
                     <Route path="/department/courses/" render={(props)=>{return <DepartmentAdmin  component={DepartmentCourses}  />}} exact/>
-                    <Route path="/department/course/edit/" render={(props)=>{return <DepartmentAdmin  component={DepartmentEditCourse}  />}} exact/>
+                    <Route path="/department/course/edit/"  component={DepartmentEditCourse} exact/>
                     
+                    <Route path="/department/create/exam/course/" render={(props)=>{return <DepartmentAdmin  component={DepartmentAddExamCourse}  />}} exact/>
+                    
+
+
                     <Route path="/department/add/section" render={(props)=>{return <DepartmentAdmin  component={DepartmentSection}  />}} exact/>
                     
                     
