@@ -1,18 +1,31 @@
-import axios from 'axios';
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
 import Layout from './layout'
+
+
 const ExamRoomAssigner = ()=>{
 
-    const[Room, setRoom] = useState([]);
-    const[myBlocks,setMyBlocks] = useState([])
     const[department_id,setDepartmentID] = useState()
-    const[college_id,setCollegeID] = useState()
-    const[isUpdated,setIsUpdated] = useState(false)
+    const[user,setUser] = useState()
+    const[courses,setCourses] = useState([])
+    const[addRooms,setAddedRooms] = useState([])
+    const[loadCourse,setLoadCourse] = useState(false)
+    const[loadSection,setLoadSection] = useState(false)
+    const[loading,setLoading] = useState(true);
+    const[fixedYear,setFixedYear] = useState([1,2,3,4,5,6])
+    const[examSection,setExamSection] = useState([])
+    const[addedToExamCourses,setAddedToExamCourses] = useState()
+    const[tempBlock,setTempBlock] = useState('')
+    const[tempRoom,setTempRoom] = useState('')
+    const[fixedBlock,setFixedBlock] = useState([])
+    const[fixedRoom,setFixedRoom] = useState([])
+
 
     
     const GenerateRoom = () =>{
         const rooms = [];
+        const block = [];
+
         for(var i=1;i<=10;i++){
             rooms.push(i+100)
         }
@@ -25,149 +38,178 @@ const ExamRoomAssigner = ()=>{
         for(var i=1;i<=10;i++){
             rooms.push(i+400)
         }
-        setRoom(rooms)
-    }
+        
+        setFixedRoom(rooms)
 
-    const RoomDisplay = (props)=>{
-
-        const [liColor, setLiColor] = useState('')
-        const [borderColor, setBorderColor] = useState('darkgray')
-        const [selectedRoom,setSelectedRoom] = useState()
-        const [room_id,setRoomID] = useState()
-        const [block_id,setBlockID] = useState()
-
-        const tempRoom = []
-
-
-        const UseRoomForDepartment = async(e)=>{
-            e.preventDefault()
-            
-            try{
-
-              
-                 await axios({
-                    method: '',
-                    url: '',
-                    data:{
-                        'room_id' : room_id,
-                        'block_id': block_id,
-                        'department_id': department_id
-                    }
-                }).then((response)=>{
-                    console.log(response.data)
-                    //setMyBlocks(response.data.block)
-                    //setIsUpdated(true)
-                    
-            }); 
-            }catch(e){
-                
-            }
-
-
-
+        for(var i=40;i<=100;i++){
+            block.push(i)
         }
+        setFixedBlock(block);
 
-        return(
-            <div class="card" style={{ marginTop: '3em' }}>
-                        <h5 class="card-header">Room : </h5>
-                        <div class="card-body">
-                            <ul class="list-group" style={{ height: '36vh',overflowY: 'scroll' }}>
-                               
-                                {
-                                    props.room.map((room)=>{
-                                        return  <li style={{border: `1px solid ${borderColor}`}} className="list-group-item" onClick={(e)=>{}}>
-                                        {room}
-                                        <button style={{ float:'right' }}  onClick={(e)=>{UseRoomForDepartment(e);}} className="btn btn-warning">Add Room</button></li>
-                                    })
-                                }
-                           
-                               
-                            </ul>
-                    </div>
-            </div>
-        )
     }
-    const GetMyBlock = async ()=>{
-        try{
-
-            //const response = await axios.get('/college/current').then((res)=>res);
-            //console.log(response)
-             await axios({
-                method: 'post',
-                url: '/college/get/block',
-                data:{
-                    'college_id' : college_id
-                }
-            }).then((response)=>{
-                console.log(response.data)
-                setMyBlocks(response.data.block)
-                setIsUpdated(true)
-                
-        }); 
-        }catch(e){
-            
-        }
-    }
-
-   
-    useEffect(() => {
-
-       
-        (
-            async()=>{
-                 await axios.get('/department/current',{headers:{'Authorization': localStorage.getItem('d_auth')}}).then((response)=>{
-                    console.log(response.data.id)
-                    setDepartmentID(response.data.id)
-                    setCollegeID(response.data.college_id)
-                    console.log('college_id',college_id)
-                })
-            }
-        )();
-        GenerateRoom()
-        GetMyBlock()
-        console.log((Room));
-    }, [isUpdated])
-
 
     
 
+    useEffect(() => {
+        (
+            async ()=>{
+                 await axios.get('/department/current',{headers:{'Authorization': localStorage.getItem('d_auth')}}).then((response)=>{
+                   // console.log(response.data.department_id)
+                    setUser(response.data)
+                    setDepartmentID(response.data.department_id)
+                    //console.log(response.data)
+                })
+            }
+        )();
+
+        GenerateRoom()
+        GetMySections()
+        GetAddedRooms()
+
+        //console.log(examSection)
+       
+    }, [loadSection,loadCourse])
+
+
+   
+    const GetAddedRooms = async ()=>{
+
+        await axios({
+            method: 'post',
+            url: '/department/get/exam/room/',
+            data: {
+                'department_id' : department_id,
+            }
+          }).then((response)=>{
+              console.log(response)
+              setCourses(response.data.room);
+              setLoadCourse(true)
+          });
+    }
+
+    const AddRooms = async (year)=>{
+
+        await axios({
+            method: 'post',
+            url: '/department/create/exam/room',
+            data: {
+                'department_id': department_id, 
+                'room' : tempRoom,
+                'block' : tempBlock,
+                'year' : year,
+                
+            }
+          }).then((response)=>{
+              console.log(response.data)  
+          });
+          GetAddedRooms()
+
+    }
+
+
+    
+    const GetMySections = async ()=>{
+
+        await axios({
+            'method': 'post',
+            'url': 'department/get/exam/sections',
+            data:{
+                'department_id':department_id
+            },
+            headers:{
+                'Authorization': localStorage.getItem('d_auth')
+            }
+        }).then((response)=>{
+                console.log(response.data)
+                
+                try{
+                var allSection = [];
+                var eachSection = []
+                for(var i=1;i<=fixedYear.length;i++){
+                    eachSection = []
+
+                    try{
+                        response.data.sections.map((section)=>{
+                            if(section.year == i){
+                                eachSection.push(section)
+                            }
+                        })
+                    }catch(e){
+                        console.log(e)
+                    }
+                    
+
+                    if(eachSection.length != 0){
+                        allSection.push(eachSection)  
+                    }
+                        
+                }
+                setExamSection(allSection)
+                
+               // setExamSection(response.data.courses)
+                setLoadSection(true)
+
+                }catch(e){
+                    console.log(e)
+                }
+
+    });
+    
+}
+
+const DisplayAllYears = (props)=>{
+
+    const Year = [null,'First Year (Fresh)','Second Year','Third Year','Fourth Year','Fifth Year','Sixth Year']
+    const [realYear, setRealYear] = useState()
+    
+    const AddToExam =async (e,course,section)=>{
+
+        e.preventDefault()
+        e.target.value = 'Added'
+        e.target.style.background = 'green'
+        e.target.style.color = 'white';
+
+         await axios({
+            method: 'post',
+            url: '/department/create/exam/course/',
+            data: {
+                'course_id' : course.id,
+                'department_id' : course.department_id,
+                'course_year' : course.year,
+                'semester' : section.semester,
+            }
+          }).then((response)=>{
+              console.log(response)
+          });
+
+
+
+
+    }
+
+
+    
     return (
         <div>
-
-            {Layout && <Layout />}
-
-
-         
             
-                <div style={{  position: 'absolute',left: '20em',top: '8em', width: '60em', }}>
-                    <div className="accrodion-regular" style={{ width: '60em', }}>
-                    <h2 className="card card-header"> Exam Room Assigner</h2>
-                    <form>
-
-
-                    {myBlocks &&
-
-                        myBlocks.map((block)=>{
-                           
-                    return(
-                                
-
-                        <div id="accordion3">
+            <div className="accrodion-regular">
+                <form>
+                    <div id="accordion3">
                         <div className="card">
-                            <div className="card-header" id="headingSeven">
-                                <h5 className="mb-0">Block {block.block_name}
-                                <button onClick={(e)=>e.preventDefault()} className="btn btn-link collapsed" data-toggle="collapse" data-target={'#col-'+block.block_name} aria-expanded="false" aria-controls="collapseSeven">
-                                    <span className="fas mr-3 fa-angle-down"></span>
+                            <div className="card-header" >
+                                <h5 className="mb-0">
+                                <button onClick={(e)=>e.preventDefault()} className="btn btn-link" >
+                                    <span className=""></span>{props.section[0].year && Year[props.section[0].year]}
                                 </button>
-                            
-                                </h5>
                                
+                                </h5>
+                                
                             </div>
-                        
-                        <div id={'col-'+block.block_name} className="collapse" aria-labelledby="headingSeven" data-parent="#accordion3" >
+                           
+                        <div >
                         <div className="card">
                             
-                    
+                      
                         <div className="card-body">
                             <form id="form" data-parsley-validate="">
                                 
@@ -177,39 +219,151 @@ const ExamRoomAssigner = ()=>{
                                                 <h5 className="card-header"></h5>
                                                 <div className="card-body">
                                                     <ul className="list-group">
+                                                       
+                                               
+                                                {(props.course && props.section[0].year) &&
+                                                    
+                                                        courses.filter((course)=> course.year == props.section[0].year).map((course)=>{
+                                                            return <li className="list-group-item " key={course.id}>B{course.block} - R{course.room}
+                                                            
+                                                             
+                                                            <button onClick={(e)=>{e.preventDefault()}} style={{ float:'right' }} className="btn btn-success">
+                                                                Room Added
+                                                            </button>
+                                                            </li>
+                                                        })
+                                                    
+
+                                                }
+
+                                                {props.course && (props.course.length == 0)
+                                                    &&
+                                                    <h5>No Data Yet...</h5>
+
+                                                }
+
+
+
+
+                                            
+                                               
+                                              
+                                                  
+
+                                                       
+                                                    </ul>
+
+                                                <div>
+                                                
+                                                   
+                                                    
+                                                    <div className="form-group row">
+                                                    
+                                                    <div className="col-lg-12" style={{ padding: '1em', border: '1px solid lightblue',boxShadow: '5px 10px #82238' }}>
+                                                    <h5 className="card-header" for="val-credit-hour">Add Exam Room
+                                                    </h5> 
+                                                
+                                                    <div className="col-lg-12">
+                                                   
+                                                    <input style={{ display:'none' }} name="year" value={props.section[0].year}/>
+                                                    <input style={{display: 'none'}} name="department_id" value={department_id}/>
+                                                    <select className="form-control" value={tempBlock} id="val-has-lab" name="block" onChange={(e)=>{e.preventDefault();setTempBlock(e.target.value)}}>
+                                                        
+                                                   
+                                                   
+                                                    {
+                                                        fixedBlock && 
+                                                    
+                                                        fixedBlock.map((block)=>{
+                                                            return <option key={block} value={block}>{block}</option>
+                                                        })
+                                                    }
+                                                        
+                                                        
+                                                       
+                                                       
+                                                    </select>
+
+                                                    <select className="form-control" value={tempRoom} id="val-has-lab" name="room" onChange={(e)=>{e.preventDefault();setTempRoom(e.target.value)}}>
+                                                    
+                                                        
+                    
+                                                        {
+                                                            fixedRoom &&
+
+                                                            fixedRoom.map((room)=>{
+                                                                return <option key={room} value={room}>{room}</option>
+                                                            })
+                                                        }
+                                                       
+                                                    </select>
+                                                   
+                
+                                                </div>
+                                                        <button type="" onClick={(e)=>{e.preventDefault();AddRooms(props.section[0].year)}} style={{ float:'left',marginTop:'1em' }} className="btn btn-warning">
+                                                            Add to Room 
+                                                        </button>
+                                                        
+                                                    </div>
+                                                </div>
+                                                    
+                                                    
                                                     
                                                    
-                                                     {RoomDisplay && <RoomDisplay block={block} room={Room} />}
-                                                            
-                                                    
-                                                    
-                                                    </ul>
+                                                
+                                                
+                                                </div>
                                             </div>
                                     </div>
-                            </div>
+                             </div>
                         </div>
                                 
 
-                            
-                                    </form>
-                                </div>
-                            </div>
+                               
+                            </form>
                         </div>
                     </div>
                 </div>
-                            )
+            </div>
+       </div>
+   </form>
+ </div>
+</div>
+    )
+}
 
-                        })
 
-                    }
 
-            </form>
-            </div>        </div>
-    
+
+
+
+    return(
+        <div>
+            {Layout && <Layout />}
+
+            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 mb-5"  style={{  position:'absolute', top:'10em',marginLeft: '20em',width:'100em' }}>
+
+
+            
+            <div className="card">
+                <div className="card-header">
+                    <h3>Exam Room Assigner</h3>
+                </div>
             </div>
 
-            )
+            {examSection &&
 
+                examSection.map((section)=>{
+
+                    return <DisplayAllYears section={section} course={courses} />
+                })
+
+            }
+        
+        </div>
+        </div>
+    )
 }
+
 
 export default ExamRoomAssigner

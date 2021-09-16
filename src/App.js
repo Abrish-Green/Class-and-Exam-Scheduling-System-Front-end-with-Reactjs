@@ -107,7 +107,7 @@ const App =(props)=>{
                     
                     <Route path="/department/create/instructor" render={(props)=>{return <DepartmentAdmin  component={CreateInstructor} />}} exact/>
                     <Route path="/department/instructors" render={(props)=>{return <DepartmentAdmin  component={DepartmentInstructors}  />}} exact/>
-                    <Route path="/department/instructor/edit/:id" render={(props)=>{return <DepartmentAdmin  component={DepartmentEditInstructor}  />}} exact/>
+                    <Route path="/department/instructor/edit/:id"   component={DepartmentEditInstructor}  exact/>
                     
                     <Route path="/department/schedule/class" render={(props)=>{return <DepartmentAdmin  component={StartSchedulingProcess}  />}} exact/>
                     

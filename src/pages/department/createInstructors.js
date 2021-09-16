@@ -150,7 +150,7 @@ const CreateInstructor = () => {
             <div className="card" >
             <h5 className="card-header">Create Instructor</h5>
                 <div className="card-body">
-                { success && <Success message="Successfully Created. Email Has been sent to Department Head. " />}
+                { success && <Success message="Successfully Created. Email Has been sent to Instructor. " />}
                     <form id="form" data-parsley-validate="" >
                    {loading && <Sending message="Sending..."/>}
                         <div className="form-group row">

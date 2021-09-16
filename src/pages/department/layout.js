@@ -118,16 +118,38 @@ const Layout = ()=>{
                                       </ul>
                                   </div>
                               </li>
+                            <li className="nav-item">
+                              <a className="nav-link" href="" data-toggle="collapse" aria-expanded="false" data-target="#submenu-15" aria-controls="submenu-15"><i className="fas fa-fw fa-table"></i>Section Manager</a>
+                              <div id="submenu-15" className="collapse submenu" >
+                                  <ul className="nav flex-column">
+                                     <li className="nav-item">
+                                            <a className="nav-link" href="/department/add/section">Add Class Section</a>
+                                     </li>                              
+                                     <li className="nav-item">
+                                          <a className="nav-link" href="/department/add/section">Add Exam Section</a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </li>
+                        
                               <li className="nav-item">
-                                  <a className="nav-link" href="" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i className="fas fa-fw fa-table"></i>Exam Invigilators</a>
+                                  <a className="nav-link" href="" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i className="fas fa-fw fa-table"></i>Exam</a>
                                   <div id="submenu-5" className="collapse submenu" >
                                       <ul className="nav flex-column">
-                                          <li className="nav-item">
+                                         <li className="nav-item">
+                                                <a className="nav-link" href="/department/create/exam/course">Add Exam Course</a>
+                                         </li> 
+                                         <li className="nav-item">
+                                              <a className="nav-link" href="/department/exam/room/assigner">Assign Exam Room</a>
+                                          </li>                             
+                                         <li className="nav-item">
                                               <a className="nav-link" href="/department/add/invigilator">Create Invigilator</a>
                                           </li>
                                           <li className="nav-item">
                                               <a className="nav-link" href="/department/invigilators">View Invigilators</a>
                                           </li>
+
+
                                       </ul>
                                   </div>
                               </li>

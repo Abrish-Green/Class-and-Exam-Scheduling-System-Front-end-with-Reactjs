@@ -10,6 +10,7 @@ const AddExamCourse = ()=>{
     const[courses,setCourses] = useState([])
     const[loadCourse,setLoadCourse] = useState(false)
     const[loadSection,setLoadSection] = useState(false)
+    const[loading,setLoading] = useState(true);
     const[fixedYear,setFixedYear] = useState([1,2,3,4,5,6])
     const[examSection,setExamSection] = useState([])
     const[addedToExamCourses,setAddedToExamCourses] = useState()
@@ -74,6 +75,7 @@ const AddExamCourse = ()=>{
                 console.log(response.data)
                 setCourses(response.data.courses)
                 setLoadCourse(true)
+                setLoading(false)
             })
 
 
@@ -160,9 +162,10 @@ const DisplayAllYears = (props)=>{
     }
 
 
-    console.log(props.section)
+    console.log()
     return (
         <div>
+            
             <div className="accrodion-regular">
                 <form>
                     <div id="accordion3">
@@ -243,6 +246,20 @@ const DisplayAllYears = (props)=>{
 
             <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 mb-5"  style={{  position:'absolute', top:'10em',marginLeft: '20em',width:'100em' }}>
 
+
+            {loading 
+            &&
+            <div className="card">
+            <div className="card-header">
+                <h6 style={{ textAlign:'center' }}>Loading....</h6>
+            </div>
+        </div> 
+            }
+            <div className="card">
+                <div className="card-header">
+                    <h3>Exam Course</h3>
+                </div>
+            </div>
 
             {examSection &&
 
