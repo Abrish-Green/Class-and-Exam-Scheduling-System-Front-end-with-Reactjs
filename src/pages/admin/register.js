@@ -149,7 +149,7 @@ const AdminRegister = ()=> {
                 </a>
             </div>
             <div>
-            <h3 className="mb-1">Welcome To UCESS</h3>
+            <h3 className="mb-1">Welcome To AESS</h3>
             <p>Please enter your Admin information to start the system</p>
             </div>
         </div>

@@ -79,7 +79,7 @@ const Layout = ()=>{
                                               <a className="nav-link" href="/department/instructors">View Instructors</a>
                                           </li>
                                           <li className="nav-item">
-                                              <a className="nav-link" href="#">Assign Instructors</a>
+                                              <a className="nav-link" href="/department/class/assign/instructor">Assign Instructors</a>
                                           </li>
                                           
                                       </ul>
@@ -111,6 +111,9 @@ const Layout = ()=>{
                                   <a className="nav-link" href="" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4"><i className="fab fa-fw fa-wpforms"></i>Classes</a>
                                   <div id="submenu-4" className="collapse submenu" >
                                       <ul className="nav flex-column">
+                                         <li className="nav-item">
+                                                    <a className="nav-link" href="/department/class/add/block/room">Assign Class Room</a>
+                                         </li>
                                           <li className="nav-item">
                                               <a className="nav-link" href="/department/add/section">Manage classes</a>
                                           </li>
@@ -178,13 +181,13 @@ const Layout = ()=>{
                                   <div id="submenu-7" className="collapse submenu" >
                                       <ul className="nav flex-column">
                                           <li className="nav-item">
-                                              <a className="nav-link" href="#">Generate Exam Schedule</a>
+                                              <a className="nav-link" href="/department/exam/generate">Generate Exam Schedule</a>
                                           </li>
                                           <li className="nav-item">
-                                              <a className="nav-link" href="#">View Exam Schedule</a>
+                                              <a className="nav-link" href="/department/exam/generate">View Exam Schedule</a>
                                           </li>
                                           <li className="nav-item">
-                                              <a className="nav-link" href="#">Print Schedule</a>
+                                              <a className="nav-link" href="">Print Schedule</a>
                                           </li>
         
                                       </ul>

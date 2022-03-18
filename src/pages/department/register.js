@@ -147,8 +147,8 @@ const AdminRegister = (props)=> {
         
             <div className="card-header">
             <img style={{height:'18vh',position:'relative',left:'28%'}} className="logo-img" src="../assets/images/logo.png" alt="logo" />
-                <h3 style={{textAlign:'center'}}className="mb-1">Welcome To UCESS College Dean</h3>
-                <p>Please Complete you personal information to start using the system</p>
+                <h3 style={{textAlign:'center'}}className="mb-1"></h3>
+                <p></p>
             </div>
            
             <div className="card-body">

@@ -33,7 +33,7 @@ const Home = ()=>{
     const[loadedYear,setLoadedYear] = useState([]);
 
     const[examSearchResult,setExamSearchResult] = useState(null);
-
+    const[fail,setFail] = useState(false)
     const Search =()=>{
                 
 
@@ -41,7 +41,7 @@ const Home = ()=>{
             return(
 
                 <div class="result">
-                        <table class="table table-hover table-bordered">
+                        <table class="table table-hover table-bordered" style={{ border: '3px solid lightblue' }}>
                             <thead>
                                 <tr style={{ borderBottom: 'none' }}>
                                     <th scope="col" style={{ textAlign: 'center' }} colspan="11">Addis Ababa Science and Technology University</th>                                 
@@ -227,7 +227,13 @@ const Home = ()=>{
                 }
             }).then((response)=>{
                 console.log(response.data)
+                if(response.status ==200){
+                    setFail(false); 
+                }
                 setExamSearchResult(response.data.exam_schedule)
+                if(response.data.Message == 'Fail'){
+                    setFail(true);
+                }
             })
     
         }catch(e){
@@ -303,6 +309,10 @@ const Home = ()=>{
                                             examSearchResult && 
 
                                             <Search />
+                                        }
+
+                                        {fail &&
+                                            <InputAlert message="Exam Schedule Not Found.Please Try again with valid Information"/>
                                         }
                                     </div>
 

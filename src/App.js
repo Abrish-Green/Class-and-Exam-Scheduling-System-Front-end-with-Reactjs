@@ -45,6 +45,9 @@ import NotFound404 from './pages/other/NotFound404'
 import Home from './pages/other/home'
 import DepartmentAdmin from './pages/department/AdminPortal'
 import DepartmentAddExamCourse from './pages/department/addExamCourse'
+import DepartmentCreateBlockRoom from './pages/department/createClassBlockRoom'
+import DepartmentAssignInstructor from './pages/department/assignInstructor'
+import DepartmentExamGenerate from './pages/department/generateExamSchedule'
 
 import AdminPortal from './pages/admin/AdminPortal'
 import CommonPage from './pages/admin/layout'
@@ -128,6 +131,14 @@ const App =(props)=>{
 
                     <Route path="/department/exam/room/assigner" render={(props)=>{return <DepartmentAdmin  component={DepartmentExamAssignRoom}  />}} exact />
                     <Route path="/department/exam/schedule" render={(props)=>{return <DepartmentAdmin  component={DepartmentExamScheduler}  />}} exact />
+                    
+                    <Route path="/department/class/add/block/room" render={(props)=>{return <DepartmentAdmin  component={DepartmentCreateBlockRoom}  />}} exact />
+
+                    <Route path="/department/class/assign/instructor" render={(props)=>{return <DepartmentAdmin  component={DepartmentAssignInstructor}  />}} exact />
+                    
+                    <Route path="/department/exam/generate" render={(props)=>{return <DepartmentAdmin  component={DepartmentExamGenerate}  />}} exact />
+                    
+
                     
 
                     <Route component={NotFound404} />

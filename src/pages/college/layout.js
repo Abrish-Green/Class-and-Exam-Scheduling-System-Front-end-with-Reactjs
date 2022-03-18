@@ -114,55 +114,10 @@ const Layout = ()=>{
                                       </ul>
                                   </div>
                               </li>
-                              <li className="nav-divider">
-                                  Features
-                              </li>
-                              <li className="nav-item">
-                                  <a className="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i className="fas fa-fw fa-file"></i> Pages </a>
-                                  <div id="submenu-6" className="collapse submenu" >
-                                      <ul className="nav flex-column">
-                                          <li className="nav-item">
-                                              <a className="nav-link" href="pages/blank-page.html">Blank Page</a>
-                                          </li>
-                                          
-                                      </ul>
-                                  </div>
-                              </li>
-                              <li className="nav-item">
-                                  <a className="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-7" aria-controls="submenu-7"><i className="fas fa-fw fa-inbox"></i>Apps <span className="badge badge-secondary">New</span></a>
-                                  <div id="submenu-7" className="collapse submenu" >
-                                      <ul className="nav flex-column">
-                                          <li className="nav-item">
-                                              <a className="nav-link" href="pages/inbox.html">Inbox</a>
-                                          </li>
-                                         
-                                      </ul>
-                                  </div>
-                              </li>
-                              <li className="nav-item">
-                                  <a className="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i className="fas fa-fw fa-columns"></i>Icons</a>
-                                  <div id="submenu-8" className="collapse submenu" >
-                                      <ul className="nav flex-column">
-                                          <li className="nav-item">
-                                              <a className="nav-link" href="pages/icon-fontawesome.html">FontAwesome Icons</a>
-                                          </li>
-                                        
-                                      </ul>
-                                  </div>
-                              </li>
-                              <li className="nav-item">
-                                  <a className="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-9" aria-controls="submenu-9"><i className="fas fa-fw fa-map-marker-alt"></i>Maps</a>
-                                  <div id="submenu-9" className="collapse submenu" >
-                                      <ul className="nav flex-column">
-                                          <li className="nav-item">
-                                              <a className="nav-link" href="pages/map-google.html">Google Maps</a>
-                                          </li>
-                                          <li className="nav-item">
-                                              <a className="nav-link" href="pages/map-vector.html">Vector Maps</a>
-                                          </li>
-                                      </ul>
-                                  </div>
-                              </li>
+                              
+                              
+                              
+                              
                               
                           </ul>
                       </div>
